@@ -42,12 +42,10 @@ p2 = 12;
 lpc_coeffs_speech = zeros(num_frames_speech, p1);
 residuals_speech = zeros(size(frames_speech));
 residuals_speech = residuals_speech';
-whitening_coeffs_speech = zeros(num_frames_speech, p1);
 
 lpc_coeffs_piano = zeros(num_frames_piano, p2);
 residuals_piano = zeros(size(frames_piano));
 residuals_piano = residuals_piano';
-whitening_coeffs_piano = zeros(num_frames_piano, p2);
 
 % LPC analysis for speech
 % Iterate over the frames and compute LPC coefficients and residuals
@@ -60,10 +58,9 @@ for i = 1:num_frames_speech
     R = toeplitz(rxx(1:p1-1));
     a = R \ rxx(2:p1);
     lpc_coeffs_speech(i, :) = [1; a];
-    whitening_coeffs_speech(i, :) = [1; -a];
     
     % Compute the predicted values and residuals for the frame
-    y_pred = filter([0 a'], 1, frames_speech(:, i));
+    y_pred = filter([0 a, 1, frames_speech(:, i));
     residuals_speech(i, :) = frames_speech(:, i) - y_pred;
 
     clc;
@@ -81,10 +78,9 @@ for i = 1:num_frames_piano
     R = toeplitz(rxx(1:p2-1));
     a = R \ rxx(2:p2);
     lpc_coeffs_piano(i, :) = [1; a];
-    whitening_coeffs_piano(i, :) = [1; -a];
     
     % Compute the predicted values and residuals for the frame
-    y_pred = filter([0 a'], 1, frames_piano(:, i));
+    y_pred = filter(a, 1, frames_piano(:, i));
     residuals_piano(i, :) = frames_piano(:, i) - y_pred;
 
     clc;
@@ -100,10 +96,10 @@ end
 y_lpc = zeros(size(x_speech));
 
 % Synthesize the signal using the LPC coefficients
-y_lpc(1:frame_size_speech) = filter(1, whitening_coeffs_speech(1, :), residuals_speech(1, :));
+y_lpc(1:frame_size_speech) = filter(1, [1 - lpc_coeffs_speech(1, :)], residuals_speech(1, :));
 
 for i = 2:num_frames_piano
-    y_lpc((i-1)*frame_size_speech+1:i*frame_size_speech) = filter(1, whitening_coeffs_speech(i, :), residuals_speech(i, :));
+    y_lpc((i-1)*frame_size_speech+1:i*frame_size_speech) = filter(1, [1 - lpc_coeffs_speech(i, :)], residuals_speech(i, :));
 
     clc;
     disp(['completion step 2: ' num2str(i) ' out of ' num2str(num_frames_speech)])
@@ -126,10 +122,10 @@ audiowrite('reconstructed_speech.wav',y_lpc,Fs);
 y_lpc = zeros(size(x_speech));
 
 % Synthesize the signal using the LPC coefficients
-y_lpc(1:frame_size_piano) = filter(1, whitening_coeffs_piano(1, :), residuals_piano(1, :));
+y_lpc(1:frame_size_piano) = filter(1, [1 - lpc_coeffs_piano(1, :)], residuals_piano(1, :));
 
 for i = 2:num_frames_piano
-    y_lpc((i-1)*frame_size_piano+1:i*frame_size_piano) = filter(1, whitening_coeffs_piano(1, :), residuals_piano(i, :));
+    y_lpc((i-1)*frame_size_piano+1:i*frame_size_piano) = filter(1, [1 - lpc_coeffs_piano(i, :)], residuals_piano(i, :));
 
     clc;
     disp(['completion step 2: ' num2str(i) ' out of ' num2str(num_frames_piano)])
@@ -152,10 +148,10 @@ audiowrite('reconstructed_piano.wav',y_lpc,Fs);
 y_lpc = zeros(size(x_speech));
 
 % Synthesize the signal using the LPC coefficients
-y_lpc(1:frame_size_piano) = filter(1, whitening_coeffs_speech(1, :), residuals_piano(1, :));
+y_lpc(1:frame_size_piano) = filter(1, [1 - lpc_coeffs_speech(1, :)], residuals_piano(1, :));
 
 for i = 2:num_frames_piano
-    y_lpc((i-1)*frame_size_piano+1:i*frame_size_piano) = filter(1, whitening_coeffs_speech(1, :), residuals_piano(i, :));
+    y_lpc((i-1)*frame_size_piano+1:i*frame_size_piano) = filter(1, [1 - lpc_coeffs_speech(i, :)], residuals_piano(i, :));
 
     clc;
     disp(['completion step 2: ' num2str(i) ' out of ' num2str(num_frames_piano)])
