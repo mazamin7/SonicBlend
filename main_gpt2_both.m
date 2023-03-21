@@ -63,7 +63,7 @@ for i = 1:num_frames_speech
     whitening_coeffs_speech(i, :) = [1; -a];
     
     % Compute the predicted values and residuals for the frame
-    y_pred = filter([0 a'], 1, frames_speech(:, i));
+    y_pred = filter([0; a], 1, frames_speech(:, i));
     residuals_speech(i, :) = frames_speech(:, i) - y_pred;
 
     clc;
@@ -84,7 +84,7 @@ for i = 1:num_frames_piano
     whitening_coeffs_piano(i, :) = [1; -a];
     
     % Compute the predicted values and residuals for the frame
-    y_pred = filter([0 a'], 1, frames_piano(:, i));
+    y_pred = filter([0; a], 1, frames_piano(:, i));
     residuals_piano(i, :) = frames_piano(:, i) - y_pred;
 
     clc;
