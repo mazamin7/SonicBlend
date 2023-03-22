@@ -38,9 +38,6 @@ end
 carrier = carrier./max(abs(carrier));
 modulator = modulator./max(abs(modulator));
 
-disp(length(carrier));
-disp(length(modulator));
-
 % Set parameters
 N = 1024;
 R = N/2;
