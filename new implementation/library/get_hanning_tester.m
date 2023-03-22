@@ -3,10 +3,10 @@ clear all, close all, clc;
 % Generate random input signal
 M = randi([5,15]);
 
-% Calculate toeplitz matrix using "toeplitz"
+% Calculate window using "toeplitz"
 window1 = hanning(M);
 
-% Calculate toeplitz matrix using custom function
+% Calculate window using custom function
 window2 = get_hanning(M);
 
 % Compare results

@@ -4,10 +4,10 @@ clear all, close all, clc;
 rx = rand(1,randi([10,20]));
 M = length(rx);
 
-% Calculate autocorrelation using "xcorr"
+% Calculate lpc using "lpc"
 lpc1 = lpc(rx, M)';
 
-% Calculate autocorrelation using custom function
+% Calculate lpc using custom function
 lpc2 = gen_lp_coeffs(rx, M);
 
 % Compare results
