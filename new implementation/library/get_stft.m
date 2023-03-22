@@ -1,4 +1,4 @@
-function [stft] = get_stft(windowed_signal, nfft)
+function [x_stft] = get_stft(windowed_signal, nfft)
     % Computes STFT on a windowed_signal with windows of length nfft
     % returns: N x M matrix, where N is the FFT size, and M is number of windows
     if nargin < 2
@@ -15,5 +15,5 @@ function [stft] = get_stft(windowed_signal, nfft)
         ffts = horzcat(ffts, freq_window);
     end
 
-    stft = ffts(:, 2:end);
+    x_stft = ffts(:, 2:end);
 end
