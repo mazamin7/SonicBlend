@@ -5,8 +5,8 @@ addpath library
 %==============Imports and Load Audio===============%
 
 % Load audio files
-[modulator, fs_mod] = audioread('speech.wav');
-[carrier, fs_car] = audioread('piano.wav');
+[modulator, fs_mod] = audioread('modulator.wav');
+[carrier, fs_car] = audioread('organ_carrier.wav');
 
 % Make sure files are the same sampling rate
 fs = min(fs_mod, fs_car);
@@ -16,6 +16,14 @@ carrier = resample(carrier, fs, fs_car);
 % Trim carrier and modulator to same length
 carrier = carrier(1:min(length(modulator), length(carrier)));
 modulator = modulator(1:min(length(modulator), length(carrier)));
+
+if(~iscolumn(carrier))
+    carrier = carrier';
+end
+
+if(~iscolumn(modulator))
+    modulator = modulator';
+end
 
 % If there are two channels, just use one
 if size(carrier,2) > 1
