@@ -2,6 +2,8 @@ function xms = get_windowed_signal(signal, L, R, w)
 % Partitions signal into windows of length L, separated by R samples
 % returns: M x N matrix, where M is the window size, and N is number of windows
 
+signal = signal';
+
 % Initialize the windowed signal matrix with zeros
 xms = zeros(L, floor((length(signal)-L)/R)+1);
 

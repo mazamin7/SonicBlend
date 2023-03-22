@@ -2,7 +2,6 @@ clear all, close all, clc;
 
 % Read test audio file
 [x, Fs] = audioread('modulator.wav');
-x = x';
 win_length = 128;
 overlap = 64;
 w = bartlett(win_length);

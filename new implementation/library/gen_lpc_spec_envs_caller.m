@@ -4,12 +4,13 @@ clear all, close all, clc;
 [x, Fs] = audioread('modulator.wav');
 x = x';
 
-win_length = 256;
-overlap = win_length / 2;
-NFFT = win_length * 2;
-w = bartlett(win_length);
+% Define window size and hop size
+L = 256;
+R = L / 2;
+NFFT = 2 * L;
+w = bartlett(L);
 
-xw = get_windowed_signal(x, win_length, overlap, w);
+xw = get_windowed_signal(x, L, R, w);
 
 p = 6; % order of linear predictor
 

@@ -30,9 +30,6 @@ end
 carrier = carrier./max(carrier);
 modulator = modulator./max(modulator);
 
-carrier = carrier';
-modulator = modulator';
-
 disp(length(carrier));
 disp(length(modulator));
 
@@ -42,7 +39,7 @@ R = N/2;
 w = get_bartlett(N);
 nfft = N*2;
 
-M = 128;
+M = 32;
 
 % ==========Visualize LPC envelope on first frame of modulator===========
 
@@ -70,7 +67,7 @@ ylabel('db');
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
-[cross_synth_stft, cross_synth_audio] = cross_synthesis(fs, carrier, modulator, N, R, M, true, w, false);
+[cross_synth_stft, cross_synth_audio] = cross_synthesis(fs, carrier, modulator, N, R, M, false, w, false);
 
 cross_synth_audio = cross_synth_audio / max(abs(cross_synth_audio)) * 0.8;
 

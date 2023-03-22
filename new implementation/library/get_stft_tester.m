@@ -2,7 +2,6 @@ clear all, close all, clc;
 
 % Read test audio file
 [x, Fs] = audioread('modulator.wav');
-x = x';
 
 % Define window length and overlap
 win_length = 128;

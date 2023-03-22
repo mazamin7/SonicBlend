@@ -14,9 +14,6 @@ Fs = min(Fs_car, Fs_mod);
 x_car_resampled = resample(x_car, Fs, Fs_car);
 x_mod_resampled = resample(x_mod, Fs, Fs_mod);
 
-x_car = x_car_resampled';
-x_mod = x_mod_resampled';
-
 frame_dur = 0.03;
 
 win_length = 2 * round(frame_dur * Fs * 0.5);
