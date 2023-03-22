@@ -2,6 +2,8 @@
 clear; clc;
 close all;
 
+addpath library
+
 % Load audio files
 [modulator, fs_mod] = audioread('speech.wav');
 [carrier, fs_car] = audioread('piano.wav');
@@ -34,16 +36,17 @@ modulator = modulator';
 disp(length(carrier));
 disp(length(modulator));
 
-% ==========Visualize LPC envelope on first frame of modulator===========
-
+% Set parameters
 N = 1024;
 R = N/2;
 w = get_bartlett(N);
 nfft = N*2;
 
-frame = 19;
-
 M = 128;
+
+% ==========Visualize LPC envelope on first frame of modulator===========
+
+frame = 19;
 
 freq_spec = (0:(nfft/2)-1)*fs/nfft;
 
@@ -67,7 +70,7 @@ ylabel('db');
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
-[cross_synth_stft, cross_synth_audio] = cross_synthesis(fs, carrier, modulator, N, R, M, true, w, true);
+[cross_synth_stft, cross_synth_audio] = cross_synthesis(fs, carrier, modulator, N, R, M, true, w, false);
 
 cross_synth_audio = cross_synth_audio / max(abs(cross_synth_audio)) * 0.8;
 

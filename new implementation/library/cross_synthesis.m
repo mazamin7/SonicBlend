@@ -11,6 +11,8 @@ function [cross_synth_stft, cross_synth_audio] = cross_synthesize(fs, carrier, m
 % plot: if true, will generate spectrograms
 % returns stft of cross-synthesized signal, and cross-synthesized audio signal
 
+addpath library
+
 % to prevent time-domain aliasing, make nfft size double the window size
 nfft = L*2; % convolution length of two length-L signals, the whitening filter and windowed signal
 
