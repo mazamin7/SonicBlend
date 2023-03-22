@@ -3,17 +3,17 @@ clear all, close all, clc;
 addpath ../library
 
 % Generate random input signal
-rx = rand(1,randi([10,20]));
-M = length(rx);
+x = rand(1,randi([100,200]));
+M = randi([10,20]);
 
 % Calculate lpc using "lpc"
-lpc1 = lpc(rx, M);
+lpc1 = lpc(x, M);
 
 % Calculate lpc using custom function (matrix inversion)
-lpc2 = gen_lp_coeffs(rx, M);
+lpc2 = gen_lp_coeffs(x, M);
 
 % Calculate lpc using custom function (gradient descent)
-lpc2 = gen_lp_coeffs_gd(rx, M, 1, 100);
+lpc3 = gen_lp_coeffs_gd(x, M, 1, 100);
 
 % Compare results
 tolerance = 0.01; % 1% tolerance
