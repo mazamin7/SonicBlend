@@ -4,6 +4,9 @@ function [spec_envs] = gen_lpc_spec_envs(windowed_modulator, M, nfft)
     % nfft: fft size
     %
     % Returns a matrix of spectral envelopes, where column m is spectral envelope for m'th signal frame
+    
+    addpath library
+    
     num_frames = size(windowed_modulator, 2);
     spec_envs = zeros(nfft, 1);
 

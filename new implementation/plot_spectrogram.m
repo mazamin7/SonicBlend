@@ -1,9 +1,9 @@
-function plt_spec = plot_spectrogram(stft, fs, R, title_str, colorbar_do)
+function plt_spec = plot_spectrogram(x_stft, fs, R, title_str, colorbar_do)
 % plot spectrogram of stft
-L = size(stft, 1);
-num_frames = size(stft, 2);
+L = size(x_stft, 1);
+num_frames = size(x_stft, 2);
 % we only look at FFT freq up to nyquist limit fs/2, and normalize out imag components
-stft_db = 20*log10(abs(stft(1:L/2, :))*2);
+stft_db = 20*log10(abs(x_stft(1:L/2, :))*2);
 
 figure('Units', 'pixels', 'Position', [100, 100, 1000, 500]);
 imagesc(stft_db);
@@ -24,7 +24,7 @@ set(gca, 'XTick', ts_spec, 'XTickLabel', ts_spec_sec);
 xlabel('Time (sec)');
 
 % set title
-title_arg = sprintf('%s L=%d hopsize=%d, fs=%d Spectrogram.shape=%dx%d', title_str, L, R, fs, size(stft));
+title_arg = sprintf('%s L=%d hopsize=%d, fs=%d Spectrogram.shape=%dx%d', title_str, L, R, fs, size(x_stft));
 title(title_arg);
 
 % add colorbar
@@ -33,6 +33,5 @@ if colorbar_do
 end
 
 plt_spec = gca;
-
 
 end
