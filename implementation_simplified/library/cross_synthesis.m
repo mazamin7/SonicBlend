@@ -1,4 +1,4 @@
-function [cross_synth_stft, cross_synth_audio] = cross_synthesis(fs, carrier, modulator, L, R, M, flatten, w, plot)
+function [cross_synth_audio] = cross_synthesis(fs, carrier, modulator, L, R, M, flatten, w, plot, freq_domain)
 % Cross-synthesis of two audio signals
 % fs: sample rate
 % carrier: carrier signal in time
@@ -37,17 +37,29 @@ if flatten
     end
 end
 
-% Multiply carrier spectral frame by modulator spectral envelops
-modulator_spec_envs = gen_lpc_spec_envs(windowed_modulator, M, nfft);
+if freq_domain
+    % Multiply carrier spectral frame by modulator spectral envelops
+    modulator_spec_envs = gen_lpc_spec_envs(windowed_modulator, M, nfft);
+    cross_synth_stft = carrier_stft .* modulator_spec_envs;
 
-cross_synth_stft = carrier_stft .* modulator_spec_envs;
-% cross_synth_stft = modulator_stft .* modulator_spec_envs; % not cross
+    if plot
+        plot_spectrogram(cross_synth_stft, fs, R, "cross-synthesized carrier", true);
+    end
+    
+    % cross_synth_audio = get_istft(cross_synth_stft, R);
+    cross_synth_audio = istft(cross_synth_stft, 'Window', w, 'FFTLength', nfft, 'OverlapLength', R);
+else
+    modulator_filter_coefs = gen_lpc_filter_coefs(windowed_modulator, M);
+    windowed_modulator_filtered = windowed_modulator * 0;
 
-if plot
-    plot_spectrogram(cross_synth_stft, fs, R, "cross-synthesized carrier", true);
+    num_frames = size(windowed_modulator, 2);
+
+    for n = 1:num_frames
+        coefs = modulator_filter_coefs(:,n);
+        windowed_modulator_filtered(:,n) = windowed_carrier(:,n); %filter(coefs,1,windowed_carrier(:,n));
+    end
+
+    cross_synth_audio = reverse_windowing(windowed_modulator_filtered, L, R, w);
 end
-
-% cross_synth_audio = get_istft(cross_synth_stft, R);
-cross_synth_audio = istft(cross_synth_stft, 'Window', w, 'FFTLength', nfft, 'OverlapLength', R);
 
 end

@@ -1,2 +1,2 @@
-don't implement filter in frequency domain but with filter coefficients
+apply filtering also in time domain
 obtain optimum coefficients also with steep gradient descent -> DONE

@@ -72,7 +72,8 @@ ylabel('db');
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
-[cross_synth_stft, cross_synth_audio] = cross_synthesis(fs, carrier, modulator, N, R, M, true, w, false);
+freq_domain = false;
+cross_synth_audio = cross_synthesis(fs, carrier, modulator, N, R, M, true, w, false, freq_domain);
 
 cross_synth_audio = real(cross_synth_audio) / max(abs(cross_synth_audio)) * 0.8;
 
