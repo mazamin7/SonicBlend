@@ -1,8 +1,8 @@
 clear all, close all, clc;
 
 % Load the audio signals
-[x_car, Fs_car] = audioread('organ_carrier.wav');
-[x_mod, Fs_mod] = audioread('modulator.wav');
+[x_car, Fs_car] = audioread('piano.wav');
+[x_mod, Fs_mod] = audioread('speech.wav');
 
 % Truncate both signals to the minimum length
 min_len = min(length(x_car), length(x_mod));
