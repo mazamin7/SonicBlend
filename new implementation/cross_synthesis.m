@@ -39,9 +39,6 @@ end
 % Multiply carrier spectral frame by modulator spectral envelops
 modulator_spec_envs = gen_lpc_spec_envs(windowed_modulator, M, nfft);
 
-size(carrier_stft)
-size(modulator_spec_envs)
-
 cross_synth_stft = carrier_stft .* modulator_spec_envs;
 if plot
     plot_spectrogram(cross_synth_stft, fs, R, "cross-synthesized carrier", true);
