@@ -5,7 +5,7 @@ rx = rand(1,randi([10,20]));
 M = length(rx);
 
 % Calculate lpc using "lpc"
-lpc1 = lpc(rx, M)';
+lpc1 = lpc(rx, M);
 
 % Calculate lpc using custom function
 lpc2 = gen_lp_coeffs(rx, M);

@@ -4,4 +4,5 @@ function [rx] = gen_autocorrelates(x, M)
     for i = 1:M+1
         rx(i) = x(1:end-i+1)*x(i:end)';
     end
+    rx = rx';
 end

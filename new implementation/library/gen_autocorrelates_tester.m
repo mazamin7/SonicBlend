@@ -6,7 +6,7 @@ M = length(rx);
 
 % Calculate autocorrelation using "xcorr"
 autocorr1 = xcorr(rx, M, 'biased');
-autocorr1 = M * autocorr1(M+1:end)';
+autocorr1 = M * autocorr1(M+1:end);
 
 % Calculate autocorrelation using custom function
 autocorr2 = gen_autocorrelates(rx, M);
