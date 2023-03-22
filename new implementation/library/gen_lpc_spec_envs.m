@@ -13,7 +13,7 @@ function [spec_envs] = gen_lpc_spec_envs(windowed_modulator, M, nfft)
 
         coeffs = gen_lp_coeffs(xm', M);
 
-        spec_env = 1./abs(fft(coeffs, nfft));
+        spec_env = 1./abs(fftshift(fft(coeffs, nfft)));
         spec_envs = [spec_envs, spec_env'];
     end
 

@@ -29,6 +29,7 @@ end
 if flatten
     carrier_spec_envs = gen_lpc_spec_envs(windowed_carrier, M, nfft);
     carrier_stft = carrier_stft ./ carrier_spec_envs;
+
     if plot
         plot_spectrogram(carrier_stft, fs, R, "flattened carrier", true);
     end
@@ -38,6 +39,8 @@ end
 modulator_spec_envs = gen_lpc_spec_envs(windowed_modulator, M, nfft);
 
 cross_synth_stft = carrier_stft .* modulator_spec_envs;
+% cross_synth_stft = modulator_stft .* modulator_spec_envs; % not cross
+
 if plot
     plot_spectrogram(cross_synth_stft, fs, R, "cross-synthesized carrier", true);
 end
