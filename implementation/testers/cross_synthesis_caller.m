@@ -1,5 +1,7 @@
 clear all, close all, clc;
 
+addpath ../library
+
 % Load the audio signals
 [x_car, Fs_car] = audioread('piano.wav');
 [x_mod, Fs_mod] = audioread('speech.wav');

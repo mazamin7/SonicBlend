@@ -1,5 +1,7 @@
 clear all, close all, clc;
 
+addpath ../library
+
 % Generate random input signal
 rx = rand(1,10);
 M = length(rx);

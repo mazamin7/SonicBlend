@@ -1,17 +1,18 @@
 clear all, close all, clc;
 
+addpath ../library
+
 % Generate random input signal
 M = randi([5,15]);
 
 % Calculate window using "toeplitz"
-window1 = hanning(M);
+window1 = bartlett(M);
 
 % Calculate window using custom function
-window2 = get_hanning(M);
+window2 = get_bartlett(M);
 
 % Compare results
-tolerance = 0.01; % 1% tolerance
-if all(abs(window1 - window2) <= tolerance*window1)
+if isequal(window1, window2)
     disp('PASS')
 else
     disp('FAIL')

@@ -1,5 +1,7 @@
 clear all, close all, clc;
 
+addpath ../library
+
 % Read test audio file
 [x, Fs] = audioread('modulator.wav');
 

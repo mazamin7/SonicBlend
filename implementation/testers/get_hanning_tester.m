@@ -1,13 +1,15 @@
 clear all, close all, clc;
 
+addpath ../library
+
 % Generate random input signal
 M = randi([5,15]);
 
 % Calculate window using "toeplitz"
-window1 = hamming(M);
+window1 = hanning(M);
 
 % Calculate window using custom function
-window2 = get_hamming(M);
+window2 = get_hanning(M);
 
 % Compare results
 tolerance = 0.01; % 1% tolerance
