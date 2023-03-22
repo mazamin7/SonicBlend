@@ -1,0 +1,2 @@
+don't implement filter in frequency domain but with filter coefficients
+obtain optimum coefficients also with steep gradient descent

@@ -13,7 +13,15 @@ lpc1 = lpc(x, M);
 lpc2 = gen_lp_coeffs(x, M);
 
 % Calculate lpc using custom function (gradient descent)
-lpc3 = gen_lp_coeffs_gd(x, M, 1, 100);
+rx = xcorr(x, M, 'biased');
+N = length(rx);
+rx = N * rx(M+1:end)';
+R = toeplitz(rx);
+
+% coeffs = linsolve(R, -1*rx(2:end));
+% coeffs = R \ rx;
+coeffs = linsolve(R(2:end,2:end), rx(2:end));
+lpc3 = [1, -coeffs'];
 
 % Compare results
 tolerance = 0.01; % 1% tolerance

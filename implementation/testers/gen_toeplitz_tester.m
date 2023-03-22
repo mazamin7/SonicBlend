@@ -3,7 +3,7 @@ clear all, close all, clc;
 addpath ../library
 
 % Generate random input signal
-rx = rand(1,10);
+rx = rand(1,randi([10,25]));
 M = length(rx);
 
 % Calculate toeplitz matrix using "toeplitz"

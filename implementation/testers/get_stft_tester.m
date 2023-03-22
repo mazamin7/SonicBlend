@@ -9,13 +9,14 @@ addpath ../library
 win_length = 128;
 overlap = 64;
 w = bartlett(win_length);
+nfft = 2 * win_length;
 
 % Calculate STFT using "stft" function
-stft1 = stft(x, 'Window', w, 'FFTLength', win_length, 'OverlapLength', overlap);
+stft1 = stft(x, 'Window', w, 'FFTLength', nfft, 'OverlapLength', overlap);
 
 % Calculate STFT using custom function
 x = get_windowed_signal(x, win_length, overlap, w);
-stft2 = get_stft(x, win_length);
+stft2 = get_stft(x, nfft);
 
 % Plot STFTs
 figure;
