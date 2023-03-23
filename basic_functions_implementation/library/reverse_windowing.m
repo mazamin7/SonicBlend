@@ -4,6 +4,8 @@ function signal = reverse_windowing(xms, L, R, w)
 % R: window shift
 % w: window function (e.g. hamming, hann, etc.)
 
+L = 2*L;
+
 % Determine signal length
 N = size(xms, 2);
 n = (N-1)*R + L;

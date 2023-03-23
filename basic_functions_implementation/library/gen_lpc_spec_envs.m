@@ -11,8 +11,8 @@ function [spec_envs] = gen_lpc_spec_envs(windowed_modulator, M, nfft)
     for m = 1:num_frames
         xm = windowed_modulator(:, m); % get mth column
 
-        % coeffs = gen_lp_coeffs(xm', M);
-        coeffs = gen_lp_coeffs_gd(xm', M, 1e4);
+        coeffs = gen_lp_coeffs(xm', M);
+        % coeffs = gen_lp_coeffs_gd(xm', M, 1e4);
 
         spec_env = 1./abs(fft(coeffs, nfft));
         spec_envs = [spec_envs, spec_env'];

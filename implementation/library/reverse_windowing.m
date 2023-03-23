@@ -1,4 +1,4 @@
-function signal = reverse_windowing(xms, L, R, w)
+function signal = reverse_windowing(xms, L, R)
 % xms: windowed signal matrix
 % L: window length
 % R: window shift

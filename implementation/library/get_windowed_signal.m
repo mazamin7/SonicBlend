@@ -8,12 +8,12 @@ function xms = get_windowed_signal(signal, L, R, w)
 N = floor((length(signal)-L)/R) + 1;
 
 % Initialize windowed signal matrix
-xms = zeros(L, N);
+xms = zeros(2*L, N);
 
 % Fill matrix with windowed signal
 for i = 1:N
     idx = (i-1)*R + 1;
-    xms(:, i) = signal(idx:idx+L-1).*w;
+    xms(1:L, i) = signal(idx:idx+L-1).*w;
 end
 
 end

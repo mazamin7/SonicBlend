@@ -42,7 +42,6 @@ lpc_freq_resp2 = abs(h);
 y1_stft = x_frame_stft .* lpc_freq_resp1;
 y1 = ifft(y1_stft, NFFT);
 
-x_frame = [x_frame; zeros(L,1)];
 y2 = filter(1, coefs, x_frame);
 
 t = 1:length(x_frame);

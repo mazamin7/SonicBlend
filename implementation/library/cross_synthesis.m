@@ -47,21 +47,20 @@ if freq_domain
         plot_spectrogram(cross_synth_stft, fs, R, "cross-synthesized carrier", true);
     end
     
-    % cross_synth_audio = get_istft(cross_synth_stft, R);
     cross_synth_audio = istft(cross_synth_stft, 'Window', w, 'FFTLength', nfft, 'OverlapLength', R, 'FrequencyRange','twosided');
 else
     modulator_filter_coefs = gen_lpc_filter_coefs(windowed_modulator, M);
-    windowed_carrier_filtered = windowed_modulator * 0;
+    windowed_carrier_filtered = zeros(L,size(windowed_carrier,2));
 
     num_frames = size(windowed_modulator, 2);
 
     for n = 1:num_frames
         coefs = modulator_filter_coefs(:,n);
-        % windowed_carrier_filtered(:,n) = windowed_carrier(:,n); % Not cross-synthesis
-        windowed_carrier_filtered(:,n) = filter(1,coefs,windowed_carrier(:,n));
+        windowed_carrier_temp = windowed_carrier(1:L,n);
+        windowed_carrier_filtered(:,n) = filter(1,coefs,windowed_carrier_temp);
     end
 
-    cross_synth_audio = reverse_windowing(windowed_carrier_filtered, L, R, w);
+    cross_synth_audio = reverse_windowing(windowed_carrier_filtered, L, R);
 end
 
 end
