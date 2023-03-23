@@ -1,4 +1,4 @@
-function [cross_synth_audio] = cross_synthesis(fs, carrier, modulator, L, R, M, w, flatten, plot, freq_domain)
+function [cross_synth_audio] = cross_synthesis(fs, carrier, modulator, L, R, M, w, flatten, plot)
 % Cross-synthesis of two audio signals
 % fs: sample rate
 % carrier: carrier signal in time
