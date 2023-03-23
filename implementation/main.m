@@ -2,7 +2,7 @@ clear all; close all; clc;
 
 addpath library
 
-%==============Imports and Load Audio===============%
+%============== Imports and Load Audio ===============%
 
 % Load audio files
 [modulator, fs_mod] = audioread('modulator.wav');
