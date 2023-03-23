@@ -1,4 +1,4 @@
-function plt_spec = plot_spectrogram(x_stft, fs, R, title_str, colorbar_do)
+function plt_spec = plot_stft(x_stft, fs, R, title_str, colorbar_do)
 % plot spectrogram of stft
 L = size(x_stft, 1);
 num_frames = size(x_stft, 2);

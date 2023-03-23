@@ -5,54 +5,54 @@ addpath library
 %==============Imports and Load Audio===============%
 
 % Load audio files
-[modulator, fs_mod] = audioread('modulator.wav');
-[carrier, fs_car] = audioread('organ_carrier.wav');
+[speech, fs_speech] = audioread('speech.wav');
+[piano, fs_piano] = audioread('piano.wav');
 
 % Make sure files are the same sampling rate
-fs = min(fs_mod, fs_car);
-modulator = resample(modulator, fs, fs_mod);
-carrier = resample(carrier, fs, fs_car);
+fs = min(fs_speech, fs_piano);
+speech = resample(speech, fs, fs_speech);
+piano = resample(piano, fs, fs_piano);
 
-% Trim carrier and modulator to same length
-carrier = carrier(1:min(length(modulator), length(carrier)));
-modulator = modulator(1:min(length(modulator), length(carrier)));
+% Trim piano and speech to same length
+piano = piano(1:min(length(speech), length(piano)));
+speech = speech(1:min(length(speech), length(piano)));
 
-if(~iscolumn(carrier))
-    carrier = carrier';
+if(~iscolumn(piano))
+    piano = piano';
 end
 
-if(~iscolumn(modulator))
-    modulator = modulator';
+if(~iscolumn(speech))
+    speech = speech';
 end
 
 % If there are two channels, just use one
-if size(carrier,2) > 1
-    carrier = carrier(:,1);
+if size(piano,2) > 1
+    piano = piano(:,1);
 end
 
-if size(modulator,2) > 1
-    modulator = modulator(:,1);
+if size(speech,2) > 1
+    speech = speech(:,1);
 end
 
 % Normalize signals
-carrier = carrier./max(abs(carrier));
-modulator = modulator./max(abs(modulator));
+piano = piano./max(abs(piano));
+speech = speech./max(abs(speech));
 
 % Set parameters
-L = 1024;
-R = L/2;
-NFFT = L*2;
-w = bartlett(L);
-M = 32;
+L = 1024;         % window length
+R = L/2;          % hop size
+NFFT = L*2;       % number of bins
+w = bartlett(L);  % window 
+M = 32;           % lpc order
 
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
-cross_synth_audio = cross_synthesis(fs, carrier, modulator, L, R, M, w, true, false);
+talking_instrument = cross_synthesis(fs, piano, speech, L, R, M, w, true, false);
 disp("Done");
 
 % Normalize the signal
-cross_synth_audio = cross_synth_audio / max(abs(cross_synth_audio)) * 0.8;
+talking_instrument = talking_instrument / max(abs(talking_instrument)) * 0.8;
 
 % Save the cross-synthesis result to a WAV file
-audiowrite('cross_synthesis.wav', cross_synth_audio, fs);
+audiowrite('talking_instrument.wav', talking_instrument, fs);

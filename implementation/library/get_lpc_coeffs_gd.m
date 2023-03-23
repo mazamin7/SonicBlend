@@ -1,4 +1,4 @@
-function [coeffs] = gen_lp_coeffs_gd(x, M, num_iter)
+function [coeffs] = get_lpc_coeffs_gd(x, M, num_iter)
 % returns a_0, a_1, ..., a_M for a signal x using gradient descent
 % x: input signal
 % M: order of LP coefficients

@@ -1,4 +1,4 @@
-function xms = get_windowed_signal(signal, L, R, w)
+function xms = get_signal_frames(signal, L, R, w)
 % signal: input signal
 % L: window length
 % R: window shift
