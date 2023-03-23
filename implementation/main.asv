@@ -50,19 +50,19 @@ M = 32;
 
 frame = 19;
 
-freq_spec = (-(NFFT/2):(NFFT/2)-1)*fs/NFFT;
+freq_spec = (0:(NFFT/2)-1)*fs/NFFT;
 
-modulator_stft = stft(modulator, 'Window', w, 'FFTLength', NFFT, 'OverlapLength', R, 'FrequencyRange','twosided');
+modulator_stft = stft(modulator, 'Window', w, 'FFTLength', NFFT, 'OverlapLength', R);
 modulator_fft = modulator_stft(:,frame);
 modulator_fft_db = 20*log10(abs(modulator_fft));
 
 figure('Position', [0 0 1200 600]);
-plot(freq_spec, modulator_fft_db, 'b', 'LineWidth', 2, 'DisplayName', 'Original signal');
+plot(freq_spec, modulator_fft_db(1:NFFT/2), 'b', 'LineWidth', 2, 'DisplayName', 'Original signal');
 hold on;
 
 windowed_modulator = get_windowed_signal(modulator, L, R, w);
 modulator_spec_envs = gen_lpc_spec_envs(windowed_modulator, M, NFFT);
-plot(freq_spec, 20*log10(abs(modulator_spec_envs(:, frame)')), 'DisplayName', 'LPC');
+plot(freq_spec, 20*log10(abs(modulator_spec_envs(NFFT/2+1:end, frame)')), 'DisplayName', 'LPC');
 
 grid on;
 legend('Location', 'northwest');
