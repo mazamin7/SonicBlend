@@ -5,8 +5,8 @@ addpath library
 %============== Imports and Load Audio ===============%
 
 % Load audio files
-[speech, fs_speech] = audioread('speech.wav');
-[piano, fs_piano] = audioread('piano.wav');
+[speech, fs_speech] = audioread('modulator.wav');
+[piano, fs_piano] = audioread('organ_carrier.wav');
 
 % Make sure files are the same sampling rate
 fs = min(fs_speech, fs_piano);
@@ -49,6 +49,7 @@ M = 32;           % lpc order
 
 % Calculate lpc using "lpc"
 talking_instrument = cross_synthesis(fs, piano, speech, L, R, M, w, true, false);
+clc;
 disp("Done");
 
 % Normalize the signal

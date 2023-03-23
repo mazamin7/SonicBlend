@@ -14,6 +14,7 @@ function [cross_synth_audio] = cross_synthesis(fs, piano_frames, speech_frames, 
 
 framed_piano = get_signal_frames(piano_frames, L, R, w);
 framed_speech = get_signal_frames(speech_frames, L, R, w);
+
 % ========== Transforming to the discrete Fourier domain ==========
 
 % to prevent time-domain aliasing, make nfft size double the window size
@@ -26,20 +27,22 @@ if plot
     plot_stft(piano_stft, fs, R, "piano", true);
     plot_stft(speech_stft, fs, R, "speech", true);
 end
+
 % ========== Whitening the piao ==========
 
 % Performing LPC analysis of the piano frames
 piano_shaping_filters = get_shaping_filters(framed_piano, M, nfft);
 
 % Computing whitening filter (inverse of the shaping filter)
-piano_whitening_filter = 1./piano_shaping_filters;
+piano_whitening_filters = 1./piano_shaping_filters;
 
 % Applying whitening filter
-piano_stft = piano_stft.*piano_whitening_filter;
+piano_stft = piano_stft.*piano_whitening_filters;
 
 if plot
     plot_stft(piano_stft, fs, R, "Prediction error piano", true);
 end
+
 % ========== Applying shaping filter to the piao ==========
 
 % Performing LPC analysis of modulator frames

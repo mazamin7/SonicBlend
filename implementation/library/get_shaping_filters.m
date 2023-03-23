@@ -16,6 +16,7 @@ function [shaping_filters] = get_shaping_filters(framed_signal, M, nfft)
 
         shaping_filter = 1./abs(fft(w_o, nfft));
         shaping_filters(:,m) = shaping_filter';
-        disp(['lpc analysis iteration: ' num2str(m) ' out of ' num2str(num_frames)])
+        clc;
+        disp(['lpc analysis: ' num2str(m) ' out of ' num2str(num_frames) ' frames'])
     end 
 end
