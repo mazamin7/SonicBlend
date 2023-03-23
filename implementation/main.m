@@ -45,7 +45,7 @@ L = 512;         % window length
 R = L/2;          % hop size
 NFFT = L*2;       % number of bins
 w = bartlett(L);  % window 
-M = 64;           % lpc order
+M = 128;           % lpc order
 
 % ========== CROSS-SYNTHESIS ==========
 
