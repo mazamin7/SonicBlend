@@ -45,35 +45,13 @@ NFFT = L*2;
 w = bartlett(L);
 M = 32;
 
-% ==========Visualize LPC envelope on first frame of modulator===========
-
-frame = 19;
-
-freq_spec = (-(NFFT/2):(NFFT/2)-1)*fs/NFFT;
-
-modulator_stft = stft(modulator, 'Window', w, 'FFTLength', NFFT, 'OverlapLength', R, 'FrequencyRange','twosided');
-modulator_fft = modulator_stft(:,frame);
-modulator_fft_db = 20*log10(abs(modulator_fft));
-
-figure('Position', [0 0 1200 600]);
-plot(freq_spec, modulator_fft_db, 'b', 'LineWidth', 2, 'DisplayName', 'Original signal');
-hold on;
-
-windowed_modulator = get_windowed_signal(modulator, L, R, w);
-modulator_spec_envs = gen_lpc_spec_envs(windowed_modulator, M, NFFT);
-plot(freq_spec, 20*log10(abs(modulator_spec_envs(:, frame)')), 'DisplayName', 'LPC');
-
-grid on;
-legend('Location', 'northwest');
-title('db vs frequency');
-xlabel('Frequency (Hz)');
-ylabel('db');
-
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
 cross_synth_audio = cross_synthesis(fs, carrier, modulator, L, R, M, w, true, false);
+disp("Done");
 
+% Normalize the signal
 cross_synth_audio = cross_synth_audio / max(abs(cross_synth_audio)) * 0.8;
 
 % Save the cross-synthesis result to a WAV file
