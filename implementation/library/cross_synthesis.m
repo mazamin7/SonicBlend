@@ -1,4 +1,4 @@
-function [cross_synth_audio] = cross_synthesis(fs, piano_frames, speech_frames, L, R, M, w, flatten, plot)
+function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L, R, M, w, plot)
 % Cross-synthesis of two audio signals
 % fs: sample rate
 % piano: piano signal in time
@@ -12,26 +12,26 @@ function [cross_synth_audio] = cross_synthesis(fs, piano_frames, speech_frames, 
 
 % ========== Framing the signals ==========
 
-framed_piano = get_signal_frames(piano_frames, L, R, w);
-framed_speech = get_signal_frames(speech_frames, L, R, w);
+piano_frames = get_signal_frames(piano, L, R, w);
+speech_frames = get_signal_frames(speech, L, R, w);
 
 % ========== Transforming to the discrete Fourier domain ==========
 
 % to prevent time-domain aliasing, make nfft size double the window size
-nfft = L*2; % convolution length of two length-L signals, the whitening filter and windowed signal
+NFFT = L*2; % convolution length of two length-L signals, the whitening filter and windowed signal
 
-piano_stft = stft(piano_frames, 'Window', w, 'FFTLength', nfft, 'OverlapLength', R, 'FrequencyRange','twosided');
-speech_stft = stft(speech_frames, 'Window', w, 'FFTLength', nfft, 'OverlapLength', R, 'FrequencyRange','twosided');
+piano_stft = stft(piano, 'Window', w, 'FFTLength', NFFT, 'OverlapLength', R, 'FrequencyRange','twosided');
+speech_stft = stft(speech, 'Window', w, 'FFTLength', NFFT, 'OverlapLength', R, 'FrequencyRange','twosided');
 
 if plot
     plot_stft(piano_stft, fs, R, "piano", true);
     plot_stft(speech_stft, fs, R, "speech", true);
 end
 
-% ========== Whitening the piao ==========
+% ========== Whitening the piano ==========
 
 % Performing LPC analysis of the piano frames
-piano_shaping_filters = get_shaping_filters(framed_piano, M, nfft);
+piano_shaping_filters = get_shaping_filters(piano_frames, M, NFFT, false);
 
 % Computing whitening filter (inverse of the shaping filter)
 piano_whitening_filters = 1./piano_shaping_filters;
@@ -40,16 +40,16 @@ piano_whitening_filters = 1./piano_shaping_filters;
 piano_stft = piano_stft.*piano_whitening_filters;
 
 if plot
-    plot_stft(piano_stft, fs, R, "Prediction error piano", true);
+    plot_stft(piano_stft, fs, R, "piano prediction error", true);
 end
 
-% ========== Applying shaping filter to the piao ==========
+% ========== Applying shaping filter to the piano ==========
 
 % Performing LPC analysis of modulator frames
-modulator_shaping_filters = get_shaping_filters(framed_speech, M, nfft);
+modulator_shaping_filters = get_shaping_filters(speech_frames, M, NFFT, false);
 % We obtain modulator spectral envelops (modulator shaping filter)
 
-% The piao is filtered through the shaping filter of the modulator
+% The piano is filtered through the shaping filter of the modulator
 % We multiply each piano spectral frame by modulator spectral envelops
 cross_synth_stft = piano_stft .* modulator_shaping_filters;
 
@@ -58,5 +58,5 @@ if plot
 end
 
 % Go back to time domain
-cross_synth_audio = istft(cross_synth_stft, 'Window', w, 'FFTLength', nfft, 'OverlapLength', R, 'FrequencyRange','twosided');
+cross_synth_audio = istft(cross_synth_stft, 'Window', w, 'FFTLength', NFFT, 'OverlapLength', R, 'FrequencyRange','twosided');
 end

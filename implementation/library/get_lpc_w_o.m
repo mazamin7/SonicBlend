@@ -1,4 +1,4 @@
-function [w_o] = get_lpc_coeffs(x, M)
+function [w_o] = get_lpc_w_o(x, M)
     % returns a_0, a_1, ..., a_M for a signal x
     p = xcorr(x, M, 'biased');
     N = length(p);

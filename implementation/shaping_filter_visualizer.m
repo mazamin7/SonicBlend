@@ -41,7 +41,7 @@ plot(freq_spec, signal_fft_db, 'b', 'LineWidth', 2, 'DisplayName', 'Original sig
 hold on;
 
 windowed_signal = get_signal_frames(signal, L, R, w);
-signal_shaping_filters = get_shaping_filters(windowed_signal, M, NFFT);
+signal_shaping_filters = get_shaping_filters(windowed_signal, M, NFFT, false);
 plot(freq_spec, 20*log10(abs(signal_shaping_filters(:, frame)')), 'DisplayName', 'LPC');
 
 grid on;
