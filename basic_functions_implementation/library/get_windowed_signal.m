@@ -15,5 +15,4 @@ for i = 1:N
     idx = (i-1)*R + 1;
     xms(:, i) = signal(idx:idx+L-1).*w;
 end
-
 end

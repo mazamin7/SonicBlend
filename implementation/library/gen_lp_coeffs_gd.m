@@ -5,8 +5,12 @@ function [coeffs] = gen_lp_coeffs_gd(x, M, num_iter)
 % alpha: step size for gradient descent
 % num_iter: number of iterations for gradient descent
 
+N = length(x);
+
 % calculate autocorrelation
-rx = gen_autocorrelates(x, M)';
+rx = xcorr(x, M, 'biased');
+rx = N * rx(M+1:end)';
+
 R = toeplitz(rx(1:M+1));
 
 eigs_R = eig(R);

@@ -38,16 +38,13 @@ end
 carrier = carrier./max(abs(carrier));
 modulator = modulator./max(abs(modulator));
 
-disp(length(carrier));
-disp(length(modulator));
-
 % Set parameters
 N = 1024;
 R = N/2;
-w = get_bartlett(N);
+w = bartlett(N);
 nfft = N*2;
 
-M = 64;
+M = 32;
 
 % ==========Visualize LPC envelope on first frame of modulator===========
 
@@ -75,9 +72,10 @@ ylabel('db');
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
-[cross_synth_stft, cross_synth_audio] = cross_synthesis(fs, carrier, modulator, N, R, M, true, w, false);
+freq_domain = false;
+cross_synth_audio = cross_synthesis(fs, carrier, modulator, N, R, M, true, w, false, freq_domain);
 
-cross_synth_audio = cross_synth_audio / max(abs(cross_synth_audio)) * 0.8;
+cross_synth_audio = real(cross_synth_audio) / max(abs(cross_synth_audio)) * 0.8;
 
 % Save the cross-synthesis result to a WAV file
 audiowrite('cross_synthesis.wav', cross_synth_audio, fs);

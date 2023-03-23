@@ -1,2 +1,0 @@
-apply filtering also in time domain
-obtain optimum coefficients also with steep gradient descent -> DONE

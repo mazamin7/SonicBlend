@@ -1,2 +1,3 @@
-don't implement filter in frequency domain but with filter coefficients
-obtain optimum coefficients also with steep gradient descent
+apply filtering also in time domain -> DONE
+obtain optimum coefficients also with steep gradient descent -> DONE
+perform multi-resolution analysis and synthesis

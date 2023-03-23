@@ -11,8 +11,8 @@ function [filter_coeffs] = gen_lpc_filter_coefs(windowed_modulator, M)
     for m = 1:num_frames
         xm = windowed_modulator(:,m); % get mth column
 
-        % coeffs = gen_lp_coeffs(xm', M);
-        coeffs = gen_lp_coeffs_gd(xm', M, 1e4);
+        coeffs = gen_lp_coeffs(xm', M);
+        % coeffs = gen_lp_coeffs_gd(xm', M, 1e4);
 
         filter_coeffs(:,m) = coeffs;
     end

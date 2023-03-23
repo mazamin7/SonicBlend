@@ -11,10 +11,19 @@ n = (N-1)*R + L;
 % Initialize output signal
 signal = zeros(n, 1);
 
-% Fill output signal with windowed segments
+% Initialize overlap-add array
+overlap_add = zeros(n, 1);
+
+% Fill overlap-add array with windowed segments
 for i = 1:N
     idx = (i-1)*R + 1;
-    signal(idx:idx+L-1) = signal(idx:idx+L-1) + xms(:, i).*w;
+    overlap_add(idx:idx+L-1) = overlap_add(idx:idx+L-1) + xms(:, i);
+end
+
+% Apply overlap and add
+for i = 1:N
+    idx = (i-1)*R + 1;
+    signal(idx:idx+L-1) = signal(idx:idx+L-1) + overlap_add(idx:idx+L-1);
 end
 
 end
