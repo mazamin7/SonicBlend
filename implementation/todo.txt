@@ -1,5 +1,8 @@
 apply filtering also in time domain -> DONE
 	understand why it sounds poor
 	check the filter frequency response and compare with spec_env = 1./abs(fftshift(fft(coeffs, nfft)));
+		ok, they're the same
+	check if both whitening and shaping are done
+		whintening is done (called optional spectral flattening), but it's applied to stft of carrier
 obtain optimum coefficients also with steep gradient descent -> DONE
 perform multi-resolution analysis and synthesis

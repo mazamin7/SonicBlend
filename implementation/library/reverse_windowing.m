@@ -1,4 +1,4 @@
-function signal = reverse_windowing(xms, L, R)
+function signal = reverse_windowing(xms, L, R, w)
 % xms: windowed signal matrix
 % L: window length
 % R: window shift
@@ -17,7 +17,7 @@ overlap_add = zeros(n, 1);
 % Fill overlap-add array with windowed segments
 for i = 1:N
     idx = (i-1)*R + 1;
-    overlap_add(idx:idx+L-1) = overlap_add(idx:idx+L-1) + xms(:, i);
+    overlap_add(idx:idx+L-1) = overlap_add(idx:idx+L-1) + xms(:, i).*w;
 end
 
 % Apply overlap and add

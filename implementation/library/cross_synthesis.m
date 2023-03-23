@@ -1,4 +1,4 @@
-function [cross_synth_audio] = cross_synthesis(fs, carrier, modulator, L, R, M, flatten, w, plot, freq_domain)
+function [cross_synth_audio] = cross_synthesis(fs, carrier, modulator, L, R, M, flatten, plot, freq_domain)
 % Cross-synthesis of two audio signals
 % fs: sample rate
 % carrier: carrier signal in time
@@ -13,6 +13,8 @@ function [cross_synth_audio] = cross_synthesis(fs, carrier, modulator, L, R, M, 
 
 % to prevent time-domain aliasing, make nfft size double the window size
 nfft = L*2; % convolution length of two length-L signals, the whitening filter and windowed signal
+
+w = hanning(L);
 
 windowed_carrier = get_windowed_signal(carrier, L, R, w);
 windowed_modulator = get_windowed_signal(modulator, L, R, w);
@@ -60,7 +62,9 @@ else
         windowed_carrier_filtered(:,n) = filter(1,coefs,windowed_carrier_temp);
     end
 
-    cross_synth_audio = reverse_windowing(windowed_carrier_filtered, L, R);
+    w = hanning(L);
+
+    cross_synth_audio = reverse_windowing(windowed_carrier_filtered, L, R, w);
 end
 
 end
