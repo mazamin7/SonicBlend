@@ -23,7 +23,7 @@ signal = signal./max(abs(signal));
 L = 1024;
 R = L/2;
 NFFT = L*2;
-w = bartlett(L);
+w = @bartlett;
 M = 32;
 
 frame = 19;
@@ -32,7 +32,7 @@ frame = 19;
 
 freq_spec = (-(NFFT/2):(NFFT/2)-1)*fs/NFFT;
 
-signal_stft = stft(signal, 'Window', w, 'FFTLength', NFFT, 'OverlapLength', R, 'FrequencyRange','twosided');
+signal_stft = stft(signal, 'Window', w(L), 'FFTLength', NFFT, 'OverlapLength', R, 'FrequencyRange','twosided');
 signal_stft_frame = signal_stft(:,frame);
 signal_fft_db = 20*log10(abs(signal_stft_frame));
 
