@@ -1,8 +1,11 @@
-function xms = get_signal_frames(signal, L, R, w)
+function xms = get_signal_frames(signal, L, R, w_fun)
 % signal: input signal
 % L: window length
 % R: window shift
 % w: window function (e.g. hamming, hann, etc.)
+
+% Generate window
+w = w_fun(L);
 
 % Determine number of windows
 N = floor((length(signal)-L)/R) + 1;

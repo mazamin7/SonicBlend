@@ -41,16 +41,20 @@ piano = piano./max(abs(piano));
 speech = speech./max(abs(speech));
 
 % Set parameters
-L = 512;         % window length
-R = L/2;          % hop size
-NFFT = L*2;       % number of bins
-w = bartlett(L);  % window 
-M = 128;           % lpc order
+L_piano = 1024;         % window length piano
+R_piano = L_piano/2;          % hop size piano
+M_piano = 64;           % lpc order piano
+
+L_speech = 1024;         % window length speech
+R_speech = L_speech/2;          % hop size speech
+M_speech = 64;           % lpc order speech
+
+w_fun = @bartlett;  % window type
 
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
-talking_instrument = cross_synthesis(fs, piano, speech, L, R, M, w, false);
+talking_instrument = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, false);
 clc;
 disp("Done");
 
