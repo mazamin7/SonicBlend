@@ -11,7 +11,7 @@ w = w_fun(L);
 N = floor((length(signal)-L)/R) + 1;
 
 % Initialize windowed signal matrix
-xms = zeros(2*L, N);
+xms = zeros(L, N);
 
 % Fill matrix with windowed signal
 for i = 1:N

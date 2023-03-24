@@ -6,7 +6,7 @@ function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L, R, M, w_fun
 % L: window size
 % R: hop size
 % M: number of coefficients
-% w: window coefficients
+% w_fun: window function
 % plot: if true, will generate spectrograms
 % returns the cross-synthesized audio signal
 
