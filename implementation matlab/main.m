@@ -43,11 +43,11 @@ speech = speech./max(abs(speech));
 % Set parameters
 L_piano = 1024;         % window length piano
 R_piano = L_piano/2;          % hop size piano
-M_piano = 64;           % lpc order piano
+M_piano = 128;           % lpc order piano
 
 L_speech = 1024;         % window length speech
 R_speech = L_speech/2;          % hop size speech
-M_speech = 64;           % lpc order speech
+M_speech = 32;           % lpc order speech
 
 w_fun = @bartlett;  % window type
 
