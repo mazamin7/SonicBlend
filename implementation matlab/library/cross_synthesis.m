@@ -10,17 +10,35 @@ function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_pia
 % plot: if true, will generate spectrograms
 % returns the cross-synthesized audio signal
 
+% ========== Verifying arguments ==========
+
+% Assert that n is a power of 2
+assert(L_piano == 2^floor(log2(L_piano)), 'L_piano is not a power of 2');
+assert(L_speech == 2^floor(log2(L_speech)), 'L_speech is not a power of 2');
+
 % ========== Framing the signals ==========
 
 piano_frames = get_signal_frames(piano, L_piano, R_piano, w_fun);
-speech_frames = get_signal_frames(speech, L_piano, R_speech, w_fun);
+speech_frames = get_signal_frames(speech, L_speech, R_speech, w_fun);
+
+num_frames_piano = size(piano_frames,2);
+num_frames_speech = size(speech_frames,2);
+
+alpha = floor(num_frames_speech/num_frames_piano);
+
+% Truncating
+speech_frames = speech_frames(:,1:alpha:end);
+
+if size(speech_frames,2) > num_frames_piano
+    speech_frames = speech_frames(:,1:num_frames_piano);
+end
 
 % ========== Transforming to the discrete Fourier domain ==========
 
 % to prevent time-domain aliasing, make nfft size double the window size
 % convolution length of two length-L signals, the whitening filter and windowed signal
 NFFT_piano = L_piano*2;
-NFFT_speech = L_speech*2;
+NFFT_speech = L_piano*2;
 
 piano_stft = stft(piano, 'Window', w_fun(L_piano), 'FFTLength', NFFT_piano, 'OverlapLength', R_piano, 'FrequencyRange','twosided');
 speech_stft = stft(speech, 'Window', w_fun(L_speech), 'FFTLength', NFFT_speech, 'OverlapLength', R_speech, 'FrequencyRange','twosided');
