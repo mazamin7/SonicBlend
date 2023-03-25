@@ -1,4 +1,4 @@
-function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, plot_do)
+function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, plot_do, p, q)
 % Cross-synthesis of two audio signals
 % fs: sample rate
 % piano: piano signal in time
@@ -89,10 +89,10 @@ if L_piano < L_speech
             n = num_frames_speech;
         end
 
-        cross_synth_stft(:,i) = piano_stft(:,i) .* speech_shaping_filters(:,n);
+        cross_synth_stft(:,i) = ( abs(piano_stft(:,i)) .^ p .* abs(speech_shaping_filters(:,n)) .^ (1-p) ).^(2*q) .* exp(1i * ( angle(piano_stft(:,i)) + angle(speech_shaping_filters(:,n)) ));
     end
 else
-    cross_synth_stft = piano_stft .* speech_shaping_filters;
+    cross_synth_stft = ( abs(piano_stft) .^ p .* abs(speech_shaping_filters) .^ (1-p) ).^(2*q) .* exp(1i * ( angle(piano_stft) + angle(speech_shaping_filters) ));
 end
 
 if plot_do
@@ -101,5 +101,6 @@ end
 
 % Go back to time domain
 cross_synth_audio = istft(cross_synth_stft, 'Window', w_fun(L_piano), 'FFTLength', NFFT_piano, 'OverlapLength', R_piano, 'FrequencyRange','twosided');
+cross_synth_audio = real(cross_synth_audio);
 
 end
