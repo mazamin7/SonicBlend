@@ -1,4 +1,4 @@
-function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L, R, M, w_fun, plot_do)
+function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, plot_do)
 % Cross-synthesis of two audio signals
 % fs: sample rate
 % piano: piano signal in time
@@ -10,16 +10,37 @@ function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L, R, M, w_fun
 % plot: if true, will generate spectrograms
 % returns the cross-synthesized audio signal
 
+% ========== Verifying arguments ==========
+
+% Assert that each L is a power of 2
+assert(L_piano == 2^floor(log2(L_piano)), 'L_piano is not a power of 2');
+assert(L_speech == 2^floor(log2(L_speech)), 'L_speech is not a power of 2');
+
+% Missing assert L_piano >= L_speech
+
 % ========== Framing the signals ==========
 
-piano_frames = get_signal_frames(piano, L, R, w_fun);
-speech_frames = get_signal_frames(speech, L, R, w_fun);
+piano_frames = get_signal_frames(piano, L_piano, R_piano, w_fun);
+speech_frames = get_signal_frames(speech, L_speech, R_speech, w_fun);
+
+num_frames_piano = size(piano_frames,2);
+num_frames_speech = size(speech_frames,2);
+
+alpha = floor(num_frames_speech/num_frames_piano);
+
+% Truncating
+speech_frames = speech_frames(:,1:alpha:end);
+
+if size(speech_frames,2) > num_frames_piano
+    speech_frames = speech_frames(:,1:num_frames_piano);
+end
 
 % ========== Transforming to the discrete Fourier domain ==========
 
 % to prevent time-domain aliasing, make nfft size double the window size
 % convolution length of two length-L signals, the whitening filter and windowed signal
-NFFT = L*2;
+NFFT_piano = L_piano*2;
+NFFT_speech = L_piano*2;
 
 piano_stft = stft(piano, 'Window', w_fun(L), 'FFTLength', NFFT, 'OverlapLength', R, 'FrequencyRange','twosided');
 speech_stft = stft(speech, 'Window', w_fun(L), 'FFTLength', NFFT, 'OverlapLength', R, 'FrequencyRange','twosided');
