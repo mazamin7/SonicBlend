@@ -17,7 +17,7 @@ assert(L_piano == 2^floor(log2(L_piano)), 'L_piano is not a power of 2');
 assert(L_speech == 2^floor(log2(L_speech)), 'L_speech is not a power of 2');
 
 % Assert that L_speech <= L_piano
-assert((L_speech <= L_piano), 'L_piano should be greater or equal than L_speech');
+% assert((L_speech <= L_piano), 'L_piano should be greater or equal than L_speech');
 
 % ========== Framing the signals ==========
 
@@ -27,21 +27,23 @@ speech_frames = get_signal_frames(speech, L_speech, R_speech, w_fun);
 num_frames_piano = size(piano_frames,2);
 num_frames_speech = size(speech_frames,2);
 
-alpha = floor(num_frames_speech/num_frames_piano);
-
-% Truncating
-speech_frames = speech_frames(:,1:alpha:end);
-
-if size(speech_frames,2) > num_frames_piano
-    speech_frames = speech_frames(:,1:num_frames_piano);
+if L_speech < L_piano
+    alpha = floor(num_frames_speech/num_frames_piano);
+    
+    % Decimating frames
+    speech_frames = speech_frames(:,1:alpha:end);
+    
+    if size(speech_frames,2) > num_frames_piano
+        speech_frames = speech_frames(:,1:num_frames_piano);
+    end
 end
 
 % ========== Transforming to the discrete Fourier domain ==========
 
 % to prevent time-domain aliasing, make nfft size double the window size
 % convolution length of two length-L signals, the whitening filter and windowed signal
-NFFT_piano = L_piano*2;
-NFFT_speech = L_piano*2;
+NFFT_piano = max(L_piano,L_speech)*2;
+NFFT_speech = max(L_piano,L_speech)*2;
 
 piano_stft = stft(piano, 'Window', w_fun(L_piano), 'FFTLength', NFFT_piano, 'OverlapLength', R_piano, 'FrequencyRange','twosided');
 speech_stft = stft(speech, 'Window', w_fun(L_speech), 'FFTLength', NFFT_speech, 'OverlapLength', R_speech, 'FrequencyRange','twosided');
@@ -74,7 +76,24 @@ speech_shaping_filters = get_shaping_filters(speech_frames, M_speech, NFFT_speec
 
 % The piano is filtered through the shaping filter of the speech
 % We multiply each piano spectral frame by speech spectral envelops
-cross_synth_stft = piano_stft .* speech_shaping_filters;
+if L_piano < L_speech
+    alpha = floor(num_frames_piano/num_frames_speech);
+
+    cross_synth_stft = zeros(size(piano_stft));
+
+    for i = 1:num_frames_piano
+
+        % alpha-uplicating each shaping filter
+        n = floor((i-1)/alpha) + 1;
+        if n > num_frames_speech
+            n = num_frames_speech;
+        end
+
+        cross_synth_stft(:,i) = piano_stft(:,i) .* speech_shaping_filters(:,n);
+    end
+else
+    cross_synth_stft = piano_stft .* speech_shaping_filters;
+end
 
 if plot_do
     plot_stft(cross_synth_stft, fs, R_piano, "talking instrument", true);

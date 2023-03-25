@@ -42,14 +42,14 @@ speech = speech./max(abs(speech));
 
 % Set parameters
 L_piano = 512;         % window length piano
-R_piano = L_piano/2;          % hop size piano
-M_piano = 64;           % lpc order piano
+M_piano = 32;           % lpc order piano
 
-L_speech = 512;         % window length speech
-R_speech = L_speech/2;          % hop size speech
-M_speech = 16;           % lpc order speech
+L_speech = 2048;         % window length speech
+M_speech = 8;           % lpc order speech
 
 w_fun = @bartlett;  % window type
+R_piano = L_piano/2;          % hop size piano
+R_speech = L_speech/2;          % hop size speech
 
 % ========== CROSS-SYNTHESIS ==========
 
