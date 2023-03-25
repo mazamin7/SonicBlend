@@ -13,7 +13,7 @@ rx = N * rx(M+1:end)';
 
 R = toeplitz(rx(1:M+1));
 
-eigs_R = eig(R);
+eigs_R = eig(R(2:end,2:end));
 factor = 0.95;
 mu = factor * (2/max(eigs_R));
 
