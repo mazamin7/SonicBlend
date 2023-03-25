@@ -7,8 +7,8 @@ addpath library
 % Load audio files
 % [speech, fs_speech] = audioread('modulator.wav');
 % [piano, fs_piano] = audioread('organ_carrier.wav');
-[speech, fs_speech] = audioread('speech.wav');
-[piano, fs_piano] = audioread('piano.wav');
+[speech, fs_speech] = audioread('modulator.wav');
+[piano, fs_piano] = audioread('organ_carrier.wav');
 
 % Make sure files are the same sampling rate
 fs = min(fs_speech, fs_piano);
@@ -41,10 +41,10 @@ piano = piano./max(abs(piano));
 speech = speech./max(abs(speech));
 
 % Set parameters
-L_piano = 256;         % window length piano
-M_piano = 16;           % lpc order piano
+L_piano = 512;         % window length piano
+M_piano = 20;           % lpc order piano
 
-L_speech = 1024;         % window length speech
+L_speech = 512;         % window length speech
 M_speech = 6;           % lpc order speech
 
 w_fun = @bartlett;  % window type
@@ -52,13 +52,13 @@ R_piano = L_piano/2;          % hop size piano
 R_speech = L_speech/2;          % hop size speech
 
 % emphasis
-p = 1/2;
+p = 0.6;
 q = 1;
 
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
-talking_instrument = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, false, p, q);
+talking_instrument = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, true, p, q);
 clc;
 disp("Done");
 
