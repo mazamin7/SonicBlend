@@ -1,3 +1,0 @@
-obtain optimum coefficients also with steep gradient descent -> DONE
-perform multi-resolution analysis and synthesis -> DONE
-understand if we're doing correct whitening and shaping -> CORRECT
