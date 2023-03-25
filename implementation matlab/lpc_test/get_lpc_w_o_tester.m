@@ -1,6 +1,6 @@
 clear all, close all, clc;
 
-addpath library
+addpath ..\library\
 
 % Generate random input signal
 x = rand(1,randi([100,200]));

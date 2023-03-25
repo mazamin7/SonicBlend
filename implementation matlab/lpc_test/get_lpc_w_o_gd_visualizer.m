@@ -1,5 +1,7 @@
 clear all, close all, clc;
 
+addpath ..\library\
+
 x = rand(1,randi([100,200]));
 M = 2;
 num_iter = 30;

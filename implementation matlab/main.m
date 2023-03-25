@@ -41,7 +41,7 @@ piano = piano./max(abs(piano));
 speech = speech./max(abs(speech));
 
 % Set parameters
-L_piano = 4096;         % window length piano
+L_piano = 512;         % window length piano
 R_piano = L_piano/2;          % hop size piano
 M_piano = 64;           % lpc order piano
 
