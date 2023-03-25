@@ -45,7 +45,7 @@ L_piano = 4096;         % window length piano
 R_piano = L_piano/2;          % hop size piano
 M_piano = 64;           % lpc order piano
 
-L_speech = 256;         % window length speech
+L_speech = 512;         % window length speech
 R_speech = L_speech/2;          % hop size speech
 M_speech = 16;           % lpc order speech
 
@@ -54,7 +54,7 @@ w_fun = @bartlett;  % window type
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
-talking_instrument = cross_synthesis(fs, piano, speech, L, R, M, w_fun, false);
+talking_instrument = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, false);
 clc;
 disp("Done");
 
