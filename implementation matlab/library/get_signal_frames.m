@@ -18,7 +18,7 @@ xms = zeros(L, N);
 % Fill matrix with framed signal
 for i = 1:N
     idx = (i-1)*R + 1;
-    xms(1:L, i) = signal(idx:idx+L-1).*w;
+    xms(:, i) = signal(idx:idx+L-1).*w;
 end
 
 % If used in combination with stft and istft, we should ignore extremes
