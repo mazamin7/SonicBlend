@@ -26,8 +26,6 @@ for i = 1:N
     signal(idx:idx+L-1) = signal(idx:idx+L-1) + overlap_add(idx:idx+L-1);
 end
 
-if R == L/2
-    signal = signal(L/2+1:end-L/2)./2;
-end
+signal = signal(R+1:end-R)./2;
 
 end

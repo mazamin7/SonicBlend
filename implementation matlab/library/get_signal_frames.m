@@ -7,9 +7,7 @@ function xms = get_signal_frames(signal, L, R, w_fun, keep_extremes)
 % Generate window
 w = w_fun(L);
 
-if R == L/2
-    signal = [zeros(L/2,1); signal; zeros(L/2,1)];
-end
+signal = [zeros(R,1); signal; zeros(R,1)];
 
 % Determine number of windows
 N = floor((length(signal)-L)/R) + 1;
