@@ -3,9 +3,12 @@ function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_pia
 % fs: sample rate
 % piano: piano signal in time
 % speech: speech signal in time
-% L: window size
-% R: hop size
-% M: number of coefficients
+% L_piano: window size piano
+% R_piano: hop size piano
+% M_piano: number of coefficients piano
+% L_speech: window size speech
+% R_speech: hop size speech
+% M_speech: number of coefficients speech
 % w_fun: window function
 % plot: if true, will generate spectrograms
 % returns the cross-synthesized audio signal
