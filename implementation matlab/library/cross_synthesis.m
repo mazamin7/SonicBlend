@@ -21,8 +21,8 @@ assert(L_speech == 2^floor(log2(L_speech)), 'L_speech is not a power of 2');
 
 % ========== Framing the signals ==========
 
-piano_frames = get_signal_frames(piano, L_piano, R_piano, w_fun);
-speech_frames = get_signal_frames(speech, L_speech, R_speech, w_fun);
+piano_frames = get_signal_frames(piano, L_piano, R_piano, w_fun, false);
+speech_frames = get_signal_frames(speech, L_speech, R_speech, w_fun, false);
 
 num_frames_piano = size(piano_frames,2);
 num_frames_speech = size(speech_frames,2);

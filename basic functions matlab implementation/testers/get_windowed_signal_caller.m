@@ -23,3 +23,8 @@ if all(abs(x_win1 - x_win2) <= tolerance*abs(x_win1) & sign(x_win1)==sign(x_win2
 else
     disp('FAIL')
 end
+
+frame = 19;
+
+figure();
+plot(1:L,x_win2(:,frame));

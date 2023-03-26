@@ -1,4 +1,4 @@
-function xms = get_signal_frames(signal, L, R, w_fun)
+function xms = get_signal_frames(signal, L, R, w_fun, keep_extremes)
 % signal: input signal
 % L: window length
 % R: window shift
@@ -6,6 +6,10 @@ function xms = get_signal_frames(signal, L, R, w_fun)
 
 % Generate window
 w = w_fun(L);
+
+if R == L/2
+    signal = [zeros(L/2,1); signal; zeros(L/2,1)];
+end
 
 % Determine number of windows
 N = floor((length(signal)-L)/R) + 1;
@@ -17,6 +21,11 @@ xms = zeros(L, N);
 for i = 1:N
     idx = (i-1)*R + 1;
     xms(1:L, i) = signal(idx:idx+L-1).*w;
+end
+
+% If used in combination with stft and istft, we should ignore extremes
+if ~keep_extremes
+    xms = xms(:,2:end-1);
 end
 
 end

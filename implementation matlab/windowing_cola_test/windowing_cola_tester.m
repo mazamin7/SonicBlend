@@ -6,7 +6,7 @@ addpath ../library
 [x, Fs] = audioread('modulator.wav');
 L = 128;
 R = 64;
-w = bartlett(L);
+w = @bartlett;
 
 len_x = length(x);
 len_x_round = floor(len_x/R)*R;
@@ -14,8 +14,8 @@ len_x_round = floor(len_x/R)*R;
 x = x(1:len_x_round);
 
 % Split and reconstruct signal
-x_frames = get_windowed_signal(x, L, R, w);
-x2 = reverse_windowing(x_frames, L, R, w);
+x_frames = get_signal_frames(x, L, R, w, true);
+x2 = reverse_windowing(x_frames, L, R);
 
 % Plot original signal and istft1 and istft2
 t = 0:1/Fs:(length(x)-1)/Fs;
