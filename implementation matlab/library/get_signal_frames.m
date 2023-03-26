@@ -9,13 +9,13 @@ w = w_fun(L);
 
 signal = [zeros(R,1); signal; zeros(R,1)];
 
-% Determine number of windows
+% Determine number of frames
 N = floor((length(signal)-L)/R) + 1;
 
 % Initialize windowed signal matrix
 xms = zeros(L, N);
 
-% Fill matrix with windowed signal
+% Fill matrix with framed signal
 for i = 1:N
     idx = (i-1)*R + 1;
     xms(1:L, i) = signal(idx:idx+L-1).*w;
