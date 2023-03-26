@@ -62,10 +62,10 @@ piano_shaping_filters = get_shaping_filters(piano_frames, M_piano, NFFT_piano, f
 piano_whitening_filters = 1./piano_shaping_filters;
 
 % Applying whitening filter
-piano_stft = piano_stft.*piano_whitening_filters;
+piano_error_stft = piano_stft.*piano_whitening_filters;
 
 if plot_do
-    plot_stft(piano_stft, fs, R_piano, "piano prediction error", true);
+    plot_stft(piano_error_stft, fs, R_piano, "piano prediction error", true);
 end
 
 % ========== Applying shaping filter to the piano ==========
@@ -79,7 +79,7 @@ speech_shaping_filters = get_shaping_filters(speech_frames, M_speech, NFFT_speec
 if L_piano < L_speech
     alpha = floor(num_frames_piano/num_frames_speech);
 
-    cross_synth_stft = zeros(size(piano_stft));
+    cross_synth_stft = zeros(size(piano_error_stft));
 
     for i = 1:num_frames_piano
 
@@ -89,10 +89,10 @@ if L_piano < L_speech
             n = num_frames_speech;
         end
 
-        cross_synth_stft(:,i) = piano_stft(:,i) .* speech_shaping_filters(:,n);
+        cross_synth_stft(:,i) = piano_error_stft(:,i) .* speech_shaping_filters(:,n);
     end
 else
-    cross_synth_stft = piano_stft .* speech_shaping_filters;
+    cross_synth_stft = piano_error_stft .* speech_shaping_filters;
 end
 
 if plot_do
