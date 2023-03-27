@@ -11,10 +11,18 @@ lpc1 = lpc(x, M);
 lpc1 = -lpc1(2:end)';
 
 % Calculate lpc using custom function (matrix inversion)
+tic;
 lpc2 = get_lpc_w_o(x, M);
+elapsedTime1 = toc;
+
+disp(['Elapsed time: ' num2str(elapsedTime1) ' seconds']);
 
 % Calculate lpc using custom function (gradient descent)
+tic;
 lpc3 = get_lpc_w_o_gd(x, M, 1e3);
+elapsedTime2 = toc;
+
+disp(['Elapsed time: ' num2str(elapsedTime2) ' seconds']);
 
 % Compare results
 tolerance = 0.01; % 1% tolerance
