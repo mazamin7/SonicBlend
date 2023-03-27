@@ -1,9 +1,10 @@
 function [shaping_filters] = get_shaping_filters(framed_signal, M, NFFT, gd)
-    % framed_signal: matrix where each column is a windowed signal
+    % shaping_filters: matrix where each column is a shaping filter
     % M: order of linear predictor
     % NFFT: fft size
+    % gd: perform optimization using gradient descent
     %
-    % Returns a matrix of spectral envelopes, where column m is spectral envelope for m'th signal frame
+    % Returns a matrix of shaping filters, where column m is the shaping filter for m'th signal frame
     
     num_frames = size(framed_signal, 2);
     shaping_filters = zeros(NFFT, num_frames);
