@@ -52,8 +52,8 @@ piano_stft = stft(piano, 'Window', w_fun(L_piano), 'FFTLength', NFFT_piano, 'Ove
 speech_stft = stft(speech, 'Window', w_fun(L_speech), 'FFTLength', NFFT_speech, 'OverlapLength', R_speech, 'FrequencyRange','twosided');
 
 if plot_do
-    plot_stft(piano_stft, fs, R_piano, "piano", true);
-    plot_stft(speech_stft, fs, R_speech, "speech", true);
+    plot_stft(piano_stft, L_piano, fs, R_piano, "piano", true);
+    plot_stft(speech_stft, L_speech, fs, R_speech, "speech", true);
 end
 
 % ========== Whitening the piano ==========
@@ -68,7 +68,7 @@ piano_whitening_filters = 1./piano_shaping_filters;
 piano_error_stft = piano_stft.*piano_whitening_filters;
 
 if plot_do
-    plot_stft(piano_error_stft, fs, R_piano, "piano prediction error", true);
+    plot_stft(piano_error_stft, L_piano, fs, R_piano, "piano prediction error", true);
 end
 
 % ========== Applying shaping filter to the piano ==========
@@ -99,7 +99,7 @@ else
 end
 
 if plot_do
-    plot_stft(cross_synth_stft, fs, R_piano, "talking instrument", true);
+    plot_stft(cross_synth_stft, L_piano, fs, R_piano, "talking instrument", true);
 end
 
 % Go back to time domain

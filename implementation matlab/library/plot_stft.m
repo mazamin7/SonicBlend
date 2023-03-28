@@ -1,6 +1,5 @@
-function plt_spec = plot_stft(x_stft, fs, R, title_str, colorbar_do)
+function plt_spec = plot_stft(x_stft, L, fs, R, title_str, colorbar_do)
 % plot spectrogram of stft
-L = size(x_stft, 1);
 num_frames = size(x_stft, 2);
 % we only look at FFT freq up to nyquist limit fs/2, and normalize out imag components
 stft_db = 20*log10(abs(x_stft(1:L/2, :))*2);

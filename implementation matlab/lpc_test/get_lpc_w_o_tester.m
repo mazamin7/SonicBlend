@@ -19,7 +19,7 @@ disp(['Elapsed time: ' num2str(elapsedTime1) ' seconds']);
 
 % Calculate lpc using custom function (gradient descent)
 tic;
-lpc3 = get_lpc_w_o_gd(x, M, 1e3);
+[lpc3,count] = get_lpc_w_o_gd(x, M, 1e3);
 elapsedTime2 = toc;
 
 disp(['Elapsed time: ' num2str(elapsedTime2) ' seconds']);
