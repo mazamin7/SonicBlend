@@ -3,7 +3,7 @@ clear all, close all, clc;
 addpath ..\library\
 
 % Generate random input signal
-x = rand(1,randi([100,200]));
+x = rand(1,randi([1000,2000]));
 M = randi([10,20]);
 
 % Calculate lpc using "lpc"
@@ -15,15 +15,15 @@ tic;
 lpc2 = get_lpc_w_o(x, M);
 elapsedTime1 = toc;
 
-disp(['Elapsed time: ' num2str(elapsedTime1) ' seconds']);
+disp(['Elapsed time matrix inversion: ' num2str(elapsedTime1) ' seconds']);
 
 % Calculate lpc using custom function (gradient descent)
 tic;
 [lpc3,num_iter] = get_lpc_w_o_gd(x, M, 1e-4, 1e4);
 elapsedTime2 = toc;
-disp(num_iter)
 
-disp(['Elapsed time: ' num2str(elapsedTime2) ' seconds']);
+disp(['Elapsed time gradient descent: ' num2str(elapsedTime2) ' seconds']);
+disp(['Iterations gradient descent: ' num2str(num_iter)]);
 
 % Compare results
 tolerance = 0.01; % 1% tolerance

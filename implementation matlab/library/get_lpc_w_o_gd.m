@@ -27,7 +27,7 @@ while (sum(abs(grad)) > error_tolerance) && (num_iter < max_num_iter)
     % modify to do this until sufficient convergence is reached
     % update coefficients
     grad = (rx(2:end) - R(2:end,2:end) * w_o);
-    w_o = w_o + grad*mu;
+    w_o = w_o + mu*grad;
     num_iter = num_iter + 1;
 end
 
