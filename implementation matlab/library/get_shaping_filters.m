@@ -13,7 +13,7 @@ function [shaping_filters] = get_shaping_filters(framed_signal, M, NFFT, gd)
         xm = framed_signal(:, m); % get mth column
 
         if gd
-            w_o = get_lpc_w_o_gd(xm', M, 1e4);
+            [w_o, ~] = get_lpc_w_o_gd(xm', M, 1e-4, 1e4);
         else
             w_o = get_lpc_w_o(xm', M);
         end

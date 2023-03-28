@@ -1,4 +1,4 @@
-function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, plot_do)
+function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, plot_do, gd)
 % Cross-synthesis of two audio signals
 % fs: sample rate
 % piano: piano signal in time
@@ -52,14 +52,14 @@ piano_stft = stft(piano, 'Window', w_fun(L_piano), 'FFTLength', NFFT_piano, 'Ove
 speech_stft = stft(speech, 'Window', w_fun(L_speech), 'FFTLength', NFFT_speech, 'OverlapLength', R_speech, 'FrequencyRange','twosided');
 
 if plot_do
-    plot_stft(piano_stft, L_piano, fs, R_piano, "piano", true);
-    plot_stft(speech_stft, L_speech, fs, R_speech, "speech", true);
+    plot_stft(piano_stft, fs, L_piano, R_piano, "piano", true);
+    plot_stft(speech_stft, fs, L_speech, R_speech, "speech", true);
 end
 
 % ========== Whitening the piano ==========
 
 % Performing LPC analysis of the piano frames
-piano_shaping_filters = get_shaping_filters(piano_frames, M_piano, NFFT_piano, false);
+piano_shaping_filters = get_shaping_filters(piano_frames, M_piano, NFFT_piano, gd);
 
 % Computing whitening filter (inverse of the shaping filter)
 piano_whitening_filters = 1./piano_shaping_filters;
@@ -68,13 +68,13 @@ piano_whitening_filters = 1./piano_shaping_filters;
 piano_error_stft = piano_stft.*piano_whitening_filters;
 
 if plot_do
-    plot_stft(piano_error_stft, L_piano, fs, R_piano, "piano prediction error", true);
+    plot_stft(piano_error_stft, fs, L_piano, R_piano, "piano prediction error", true);
 end
 
 % ========== Applying shaping filter to the piano ==========
 
 % Performing LPC analysis of speech frames
-speech_shaping_filters = get_shaping_filters(speech_frames, M_speech, NFFT_speech, false);
+speech_shaping_filters = get_shaping_filters(speech_frames, M_speech, NFFT_speech, gd);
 % We obtain speech spectral envelops (speech shaping filter)
 
 % The piano is filtered through the shaping filter of the speech
@@ -99,7 +99,7 @@ else
 end
 
 if plot_do
-    plot_stft(cross_synth_stft, L_piano, fs, R_piano, "talking instrument", true);
+    plot_stft(cross_synth_stft, fs, L_piano, R_piano, "talking instrument", true);
 end
 
 % Go back to time domain
