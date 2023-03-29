@@ -13,9 +13,9 @@ lpc1 = -lpc1(2:end)';
 % Calculate lpc using custom function (matrix inversion)
 tic;
 lpc2 = get_lpc_w_o(x, M);
-elapsedTime1 = toc;
+elapsedTime = toc;
 
-disp(['Matrix inversion method - Elapsed time: ' num2str(elapsedTime1) ' seconds']);
+disp(['Matrix inversion method - Elapsed time: ' num2str(elapsedTime) ' seconds']);
 
 % Compare results
 tolerance = 1e-3; % 1% tolerance
@@ -27,10 +27,10 @@ end
 
 % Calculate lpc using custom function (gradient descent)
 tic;
-[lpc3,num_iter] = get_lpc_w_o_gd(x, M, 1e-12, 1e5);
-elapsedTime2 = toc;
+[lpc3,num_iter] = get_lpc_w_o_gd(x, M, 1e-4, 1e4, true, zeros(M,1));
+elapsedTime = toc;
 
-disp(['Gradient descent method - Elapsed time: ' num2str(elapsedTime2) ' seconds']);
+disp(['Gradient descent method - Elapsed time: ' num2str(elapsedTime) ' seconds']);
 disp(['Gradient descent method - Iterations: ' num2str(num_iter)]);
 
 % Compare results
