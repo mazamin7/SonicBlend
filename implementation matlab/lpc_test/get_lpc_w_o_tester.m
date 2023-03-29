@@ -27,7 +27,7 @@ end
 
 % Calculate lpc using custom function (gradient descent)
 tic;
-[lpc3,num_iter] = get_lpc_w_o_gd(x, M, 1e-4, 1e4);
+[lpc3,num_iter] = get_lpc_w_o_gd(x, M, 1e-12, 1e5);
 elapsedTime2 = toc;
 
 disp(['Gradient descent method - Elapsed time: ' num2str(elapsedTime2) ' seconds']);

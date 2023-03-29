@@ -17,4 +17,7 @@ function [w_o] = get_lpc_w_o(x, M)
     
     % Solve linear system to obtain optimal LP coefficients
     w_o = linsolve(R(2:end,2:end), p(2:end));
+    % linsolve uses the most appropriate solver with respect to the matrix
+    % type -> in our case, it exploits the Toeplitz property, making
+    % it O(n^2) as opposed to matrix inversion which is O(n^3)
 end

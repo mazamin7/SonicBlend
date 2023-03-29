@@ -1,4 +1,4 @@
-function [w_o, num_iter] = get_lpc_w_o_gd(x, M, error_tolerance, max_num_iter)
+function [w_o, num_iter] = get_lpc_w_o_gd(x, M, error_tolerance, max_num_iter, rand_init, initial_guess)
 % returns optimal coefficients w_o_0, w_o_1, ..., w_o_M for a signal x
 % x: input signal
 % M: order of LP coefficients
@@ -19,7 +19,11 @@ mu_max = 2/max(eigs_R); % maximum absolute learning rate
 mu = factor * mu_max; % absolute learning rate
 
 % initialize coefficients to random values between -1 and 1
-w_o = 2*rand(1,M)'-1;
+if rand_init
+    w_o = 2*rand(1,M)'-1;
+else
+    w_o = initial_guess;
+end
 
 grad = 1;
 num_iter = 0;

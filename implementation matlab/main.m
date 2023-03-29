@@ -51,11 +51,13 @@ R_piano = L_piano/2;          % hop size piano
 R_speech = L_speech/2;          % hop size speech
 
 use_gradient_descent = false;
+error_tolerance = 1e-4; % only has effect for gradient descent
+max_num_iter = 1e4; % only has effect for gradient descent
 
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
-talking_instrument = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, true, use_gradient_descent);
+talking_instrument = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, true, use_gradient_descent, error_tolerance, max_num_iter);
 clc;
 disp("Done");
 

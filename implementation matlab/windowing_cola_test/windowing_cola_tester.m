@@ -4,7 +4,7 @@ addpath ../library
 addpath ../
 
 % Read test audio file
-[x, Fs] = audioread('modulator.wav');
+[x, Fs] = audioread('speech.wav');
 L = 128;
 R = 64;
 w = @bartlett;
