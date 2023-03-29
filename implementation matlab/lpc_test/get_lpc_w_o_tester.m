@@ -18,7 +18,7 @@ elapsedTime1 = toc;
 disp(['Matrix inversion method - Elapsed time: ' num2str(elapsedTime1) ' seconds']);
 
 % Compare results
-tolerance = 0.01; % 1% tolerance
+tolerance = 1e-3; % 1% tolerance
 if all(abs(lpc1 - lpc2) <= tolerance*abs(lpc1) & sign(lpc1)==sign(lpc2))
     disp('Matrix inversion method - PASS')
 else
@@ -34,7 +34,6 @@ disp(['Gradient descent method - Elapsed time: ' num2str(elapsedTime2) ' seconds
 disp(['Gradient descent method - Iterations: ' num2str(num_iter)]);
 
 % Compare results
-tolerance = 0.01; % 1% tolerance
 if all(abs(lpc1 - lpc3) <= tolerance*abs(lpc1) & sign(lpc1)==sign(lpc3))
     disp('Gradient descent method - PASS')
 else
