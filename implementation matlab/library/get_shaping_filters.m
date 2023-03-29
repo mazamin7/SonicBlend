@@ -19,6 +19,9 @@ function [shaping_filters] = get_shaping_filters(framed_signal, M, NFFT, gd)
         end
 
         shaping_filter = 1./abs(fft([1, -w_o'], NFFT));
+        dc_gain = shaping_filter(1);
+        % assert(dc_gain == 1)
+        shaping_filter = shaping_filter/dc_gain; % normalize by DC gain
         shaping_filters(:,m) = shaping_filter';
 
         clc;

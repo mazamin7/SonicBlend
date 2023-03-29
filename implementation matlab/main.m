@@ -44,7 +44,7 @@ speech = speech./max(abs(speech));
 L_piano = 2048;         % window length piano
 M_piano = 10;           % lpc order piano
 
-L_speech = 256;         % window length speech
+L_speech = 1024;         % window length speech
 M_speech = 8;           % lpc order speech
 
 w_fun = @bartlett;  % window type
