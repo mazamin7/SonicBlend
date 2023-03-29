@@ -9,8 +9,7 @@ addpath library
 [piano, fs_piano] = audioread('piano.wav');
 
 % Make sure files are the same sampling rate
-% fs = min(fs_speech, fs_piano);
-fs = 16000;
+fs = min(fs_speech, fs_piano);
 speech = resample(speech, fs, fs_speech);
 piano = resample(piano, fs, fs_piano);
 
@@ -41,10 +40,10 @@ speech = speech./max(abs(speech));
 
 % Set parameters
 L_piano = 512;         % window length piano % OPTIMAL
-M_piano = 32;           % lpc order piano % OPTIMAL
+M_piano = 256;           % lpc order piano % OPTIMAL
 
 L_speech = 1024;         % window length speech % OPTIMAL
-M_speech = 128;           % lpc order speech % OPTIMAL
+M_speech = 512;           % lpc order speech % OPTIMAL
 
 w_fun = @bartlett;          % window type
 R_piano = L_piano/2;          % hop size piano
@@ -53,13 +52,16 @@ R_speech = L_speech/2;          % hop size speech
 use_gradient_descent = false;
 error_tolerance = 1e-4; % only has effect for gradient descent
 max_num_iter = 1e4; % only has effect for gradient descent
+reuse = true; % only has effect for gradient descent
 
 % ========== CROSS-SYNTHESIS ==========
 
 % Calculate lpc using "lpc"
-talking_instrument = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, true, use_gradient_descent, error_tolerance, max_num_iter);
+tic;
+talking_instrument = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, true, use_gradient_descent, error_tolerance, max_num_iter, reuse);
+elapsedTime = toc;
 clc;
-disp("Done");
+disp(['Done - Elapsed time: ' num2str(elapsedTime)]);
 
 % Normalize the signal
 talking_instrument = talking_instrument / max(abs(talking_instrument)) * 0.8;

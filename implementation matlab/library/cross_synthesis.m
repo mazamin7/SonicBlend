@@ -1,4 +1,4 @@
-function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, plot_do, gd, error_tolerance, max_num_iter)
+function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, plot_do, gd, error_tolerance, max_num_iter, reuse)
 % Cross-synthesis of two audio signals
 % fs: sample rate
 % piano: piano signal in time
@@ -14,6 +14,9 @@ function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_pia
 % gd: if true, performs LPC analysis through gradient descent
 % error_tolerance: determine the accuracy by setting a threshold
 % max_num_iter: max number of iterations for gradient descent
+% reuse: (gd only) whether the algorithm should use the w_o of the last
+%        frame as initial guess to the w_o of the current frame
+%
 % returns the cross-synthesized audio signal
 
 % ========== Verifying arguments ==========
@@ -58,7 +61,7 @@ end
 % ========== Whitening the piano ==========
 
 % Performing LPC analysis of the piano frames
-piano_shaping_filters = get_shaping_filters(piano_frames, M_piano, NFFT_piano, gd, error_tolerance, max_num_iter);
+piano_shaping_filters = get_shaping_filters(piano_frames, M_piano, NFFT_piano, gd, error_tolerance, max_num_iter, reuse);
 
 if plot_do
     plot_stft(piano_shaping_filters, fs, L_piano, R_piano, "piano shaping filters", true);
@@ -77,7 +80,7 @@ end
 % ========== Applying shaping filter to the piano ==========
 
 % Performing LPC analysis of speech frames
-speech_shaping_filters = get_shaping_filters(speech_frames, M_speech, NFFT_speech, gd, error_tolerance, max_num_iter);
+speech_shaping_filters = get_shaping_filters(speech_frames, M_speech, NFFT_speech, gd, error_tolerance, max_num_iter, reuse);
 % We obtain speech spectral envelops (speech shaping filter)
 
 if plot_do
