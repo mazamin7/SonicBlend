@@ -61,6 +61,10 @@ end
 % Performing LPC analysis of the piano frames
 piano_shaping_filters = get_shaping_filters(piano_frames, M_piano, NFFT_piano, gd);
 
+if plot_do
+    plot_stft(piano_shaping_filters, fs, L_piano, R_piano, "piano shaping filters", true);
+end
+
 % Computing whitening filter (inverse of the shaping filter)
 piano_whitening_filters = 1./piano_shaping_filters;
 
@@ -76,6 +80,10 @@ end
 % Performing LPC analysis of speech frames
 speech_shaping_filters = get_shaping_filters(speech_frames, M_speech, NFFT_speech, gd);
 % We obtain speech spectral envelops (speech shaping filter)
+
+if plot_do
+    plot_stft(speech_shaping_filters, fs, L_speech, R_speech, "speech shaping filters", true);
+end
 
 % The piano is filtered through the shaping filter of the speech
 % We multiply each piano spectral frame by speech spectral envelops

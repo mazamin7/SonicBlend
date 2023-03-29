@@ -11,7 +11,8 @@ addpath library
 [piano, fs_piano] = audioread('piano.wav');
 
 % Make sure files are the same sampling rate
-fs = min(fs_speech, fs_piano);
+% fs = min(fs_speech, fs_piano);
+fs = 16000;
 speech = resample(speech, fs, fs_speech);
 piano = resample(piano, fs, fs_piano);
 
@@ -41,13 +42,13 @@ piano = piano./max(abs(piano));
 speech = speech./max(abs(speech));
 
 % Set parameters
-L_piano = 2048;         % window length piano
-M_piano = 10;           % lpc order piano
+L_piano = 512;         % window length piano % OPTIMAL
+M_piano = 32;           % lpc order piano % OPTIMAL
 
-L_speech = 1024;         % window length speech
-M_speech = 8;           % lpc order speech
+L_speech = 1024;         % window length speech % OPTIMAL
+M_speech = 128;           % lpc order speech % OPTIMAL
 
-w_fun = @bartlett;  % window type
+w_fun = @bartlett;          % window type
 R_piano = L_piano/2;          % hop size piano
 R_speech = L_speech/2;          % hop size speech
 
