@@ -5,8 +5,6 @@ addpath library
 %============== Imports and Load Audio ===============%
 
 % Load audio files
-% [speech, fs_speech] = audioread('modulator.wav');
-% [piano, fs_piano] = audioread('organ_carrier.wav');
 [speech, fs_speech] = audioread('speech.wav');
 [piano, fs_piano] = audioread('piano.wav');
 
