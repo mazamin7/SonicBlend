@@ -38,7 +38,7 @@ mu = factor * mu_max; % learning rate for gradient descent
 assert(mu < 0.1)
 
 lambda_min = min(eigs_R);
-tau = 1 / 2 / mu / lambda_min;
+% tau = 1 / 2 / mu / lambda_min;
 tau = -1/(2 * log(1 - mu*lambda_min));
 
 % initialize coefficients to random values between -1 and 1
@@ -71,9 +71,9 @@ ylabel('w2');
 title('Convergence Path');
 legend('Iteration solutions', 'Optimal solution');
 
-amp = J_partial(1) - J_min(1)
+amp = J_partial(1) - J_min(1);
 iter_axis = 1:num_iter;
-exponential = amp*exp(-1/tau*(iter_axis - 1))
+exponential = amp*exp(-1/tau*(iter_axis - 1));
 
 figure;
 plot(iter_axis,J_partial - J_min);
@@ -82,3 +82,4 @@ plot(iter_axis,exponential)
 title('Error vs iteration')
 xlabel('iteration')
 ylabel('J')
+legend('Experimental','Theoretical');
