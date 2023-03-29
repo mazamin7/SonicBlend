@@ -10,7 +10,8 @@ function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_pia
 % R_speech: hop size speech
 % M_speech: number of coefficients speech
 % w_fun: window function
-% plot: if true, will generate spectrograms
+% plot_do: if true, will plot the STFT of the signals and the shaping filters
+% gd: if true, performs LPC analysis through gradient descent
 % returns the cross-synthesized audio signal
 
 % ========== Verifying arguments ==========
@@ -18,9 +19,6 @@ function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_pia
 % Assert that each L is a power of 2
 assert(L_piano == 2^floor(log2(L_piano)), 'L_piano is not a power of 2');
 assert(L_speech == 2^floor(log2(L_speech)), 'L_speech is not a power of 2');
-
-% Assert that L_speech <= L_piano
-% assert((L_speech <= L_piano), 'L_piano should be greater or equal than L_speech');
 
 % ========== Framing the signals ==========
 
@@ -43,8 +41,7 @@ end
 
 % ========== Transforming to the discrete Fourier domain ==========
 
-% to prevent time-domain aliasing, make nfft size double the window size
-% convolution length of two length-L signals, the whitening filter and windowed signal
+% NFFT is 2 times the window length to avoid circular convolution
 NFFT_piano = max(L_piano,L_speech)*2;
 NFFT_speech = max(L_piano,L_speech)*2;
 

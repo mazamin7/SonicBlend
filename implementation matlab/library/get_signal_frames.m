@@ -2,7 +2,8 @@ function xms = get_signal_frames(signal, L, R, w_fun, keep_extremes)
 % signal: input signal
 % L: window length
 % R: window shift
-% w: window function (e.g. hamming, hann, etc.)
+% w_fun: window function handle (e.g. hamming, hann, etc.)
+% keep_extremes: returns first and last frames if true
 
 % Generate window
 w = w_fun(L);
