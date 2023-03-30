@@ -32,7 +32,7 @@ p = p(M+1:end)'; % biased autocorrelation
 R = toeplitz(p(1:end-1)); % toeplitz matrix of the autocorrelation
 
 eigs_R = eig(R); % eigenvalues of R matrix (excluding the first row and column)
-factor = 0.3;
+factor = 0.3; % converges if factor < 1
 mu_max = 2/max(eigs_R); % maximum value of mu for gradient descent
 mu = factor * mu_max; % learning rate for gradient descent
 assert(mu < 0.1)
