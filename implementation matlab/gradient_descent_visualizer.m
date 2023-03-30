@@ -1,8 +1,8 @@
 clear all, close all, clc;
 
-addpath ..\library\
+addpath library
 
-num_iter = 300;
+num_iter = 50;
 
 % ========== Arguments gd ==========
 
@@ -26,19 +26,20 @@ J_min = sum(x.^2);
 N = length(x);
 
 % calculate autocorrelation
-rx = xcorr(x, M, 'biased');
-rx = N * rx(M+1:end)'; % biased autocorrelation
+p = xcorr(x, M);
+p = p(M+1:end)'; % biased autocorrelation
 
-R = toeplitz(rx(1:M+1)); % toeplitz matrix of the autocorrelation
+R = toeplitz(p(1:end-1)); % toeplitz matrix of the autocorrelation
 
-eigs_R = eig(R(2:end,2:end)); % eigenvalues of R matrix (excluding the first row and column)
+eigs_R = eig(R); % eigenvalues of R matrix (excluding the first row and column)
 factor = 0.3;
 mu_max = 2/max(eigs_R); % maximum value of mu for gradient descent
 mu = factor * mu_max; % learning rate for gradient descent
 assert(mu < 0.1)
 
+% computing theoretical upper limit of error vs iterations
 lambda_min = min(eigs_R);
-% tau = 1 / 2 / mu / lambda_min;
+% tau = 1 / 2 / mu / lambda_min; % approximated formula
 tau = -1/(2 * log(1 - mu*lambda_min));
 
 % initialize coefficients to random values between -1 and 1
@@ -48,9 +49,8 @@ grad = 1;
 num_iter = 0;
 % perform gradient descent
 while (sum(abs(grad)) > error_tolerance) && (num_iter < max_num_iter)
-    % modify to do this until sufficient convergence is reached
     % update coefficients
-    grad = (rx(2:end) - R(2:end,2:end) * w_o);
+    grad = (p(2:end) - R * w_o);
     w_o = w_o + mu*grad;
     w_o_partial(num_iter+1,:) = w_o;
     J_partial(num_iter+1) = J_min + (w_o - w_o_opt)' * R(2:end,2:end) * (w_o - w_o_opt);
@@ -79,7 +79,7 @@ figure;
 plot(iter_axis,J_partial - J_min);
 hold on
 plot(iter_axis,exponential)
-title('Error vs iteration')
-xlabel('iteration')
+title('Error vs iterations')
+xlabel('Iterations')
 ylabel('J')
-legend('Experimental','Theoretical');
+legend('Experimental','Theoretical upper limit');
