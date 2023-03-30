@@ -28,7 +28,8 @@ p = p(M+1:end)'; % biased autocorrelation
 R = toeplitz(p(1:end-1)); % toeplitz matrix of the autocorrelation
 
 sigma_d = var(x);
-J_min = sigma_d^2 - p(2:end)' * linsolve(R, p(2:end));
+J_min = length(x)^2*sigma_d - p(2:end)' * linsolve(R, p(2:end));
+J_min_normalized = J_min/length(x)^2;
 
 eigs_R = eig(R); % eigenvalues of R matrix (excluding the first row and column)
 factor = 0.3; % converges if factor < 1
