@@ -21,16 +21,14 @@ w_o_opt = -w_o_opt(2:end)';
 w_o_partial = zeros(num_iter,M);
 J_partial = zeros(num_iter,1);
 
-N = length(x);
-
 % calculate autocorrelation
 p = xcorr(x, M);
 p = p(M+1:end)'; % biased autocorrelation
 
-sigma_d = var(x)
-J_min = sigma_d^2 - p(2:end)' * linsolve(R, p(2:end))
-
 R = toeplitz(p(1:end-1)); % toeplitz matrix of the autocorrelation
+
+sigma_d = var(x);
+J_min = sigma_d^2 - p(2:end)' * linsolve(R, p(2:end));
 
 eigs_R = eig(R); % eigenvalues of R matrix (excluding the first row and column)
 factor = 0.3; % converges if factor < 1
@@ -82,5 +80,5 @@ hold on
 plot(iter_axis,exponential)
 title('Error vs iterations')
 xlabel('Iterations')
-ylabel('J')
+ylabel('J - J_{min} (error)')
 legend('Experimental','Theoretical upper limit');
