@@ -15,19 +15,19 @@ tic;
 lpc2 = get_lpc_w_o(x, M);
 elapsedTime = toc;
 
-disp(['Matrix inversion method - Elapsed time: ' num2str(elapsedTime) ' seconds']);
+disp(['Wiener-Hopf method - Elapsed time: ' num2str(elapsedTime) ' seconds']);
 
 % Compare results
 tolerance = 1e-3; % 1% tolerance
 if all(abs(lpc1 - lpc2) <= tolerance*abs(lpc1) & sign(lpc1)==sign(lpc2))
-    disp('Matrix inversion method - PASS')
+    disp('Wiener-Hopf method - PASS')
 else
-    disp('Matrix inversion method - FAIL')
+    disp('Wiener-Hopf method - FAIL')
 end
 
 % Calculate lpc using custom function (gradient descent)
 tic;
-[lpc3,num_iter] = get_lpc_w_o_gd(x, M, 1e-4, 1e4, true, zeros(M,1));
+[lpc3,num_iter] = get_lpc_w_o_gd(x, M, 1e-4, 1e6, true, zeros(M,1));
 elapsedTime = toc;
 
 disp(['Gradient descent method - Elapsed time: ' num2str(elapsedTime) ' seconds']);
