@@ -62,8 +62,8 @@ J_partial_normalized = J_partial / N2;
 J_partial_ratio = J_partial_normalized / J_min_normalized;
 
 disp(['Jmin = ' num2str(J_min_normalized) ...
-    ', best J obtained = ' num2str(J_partial_normalized(max_num_iter)) ...
-    ', ratio = ' num2str(J_partial_ratio(max_num_iter), '%.12f')])
+    ', last J = ' num2str(J_partial_normalized(max_num_iter)) ...
+    ', last ratio = ' num2str(J_partial_ratio(max_num_iter), '%.12f')])
 
 w1 = w_o_partial(:,1);
 w2 = w_o_partial(:,2);
