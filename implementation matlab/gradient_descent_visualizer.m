@@ -8,7 +8,6 @@ num_iter = 50;
 
 x = rand(1,randi([100,200]));
 M = 2;
-error_tolerance = 0;
 max_num_iter = num_iter;
 
 % ========== Function gd ==========
@@ -17,19 +16,16 @@ max_num_iter = num_iter;
 w_o_opt = lpc(x, M);
 w_o_opt = -w_o_opt(2:end)';
 
-% init iteration solutions
-w_o_partial = zeros(num_iter,M);
-J_partial = zeros(num_iter,1);
-
 % calculate autocorrelation
 p = xcorr(x, M);
 p = p(M+1:end)'; % biased autocorrelation
 
 R = toeplitz(p(1:end-1)); % toeplitz matrix of the autocorrelation
 
+N2 = length(x)^2;
 sigma_d = var(x);
-J_min = length(x)^2*sigma_d - p(2:end)' * linsolve(R, p(2:end));
-J_min_normalized = J_min/length(x)^2;
+J_min = N2*sigma_d - p(2:end)' * linsolve(R, p(2:end));
+J_min_normalized = J_min/N2;
 
 eigs_R = eig(R); % eigenvalues of R matrix (excluding the first row and column)
 factor = 0.3; % converges if factor < 1
@@ -45,10 +41,15 @@ tau = -1/(2 * log(1 - mu*lambda_min));
 % initialize coefficients to random values between -1 and 1
 w_o = 2*rand(1,M)'-1;
 
+% init iteration solutions
+w_o_partial = zeros(num_iter,M);
+J_partial = zeros(num_iter,1);
+
 grad = 1;
 num_iter = 0;
+
 % perform gradient descent
-while (sum(abs(grad)) > error_tolerance) && (num_iter < max_num_iter)
+while num_iter < max_num_iter
     % update coefficients
     grad = (p(2:end) - R * w_o);
     w_o = w_o + mu*grad;
@@ -56,6 +57,13 @@ while (sum(abs(grad)) > error_tolerance) && (num_iter < max_num_iter)
     J_partial(num_iter+1) = J_min + (w_o - w_o_opt)' * R(2:end,2:end) * (w_o - w_o_opt);
     num_iter = num_iter + 1;
 end
+
+J_partial_normalized = J_partial / N2;
+J_partial_ratio = J_partial_normalized / J_min_normalized;
+
+disp(['Jmin = ' num2str(J_min_normalized) ...
+    ', best J obtained = ' num2str(J_partial_normalized(max_num_iter)) ...
+    ', ratio = ' num2str(J_partial_ratio(max_num_iter), '%.12f')])
 
 w1 = w_o_partial(:,1);
 w2 = w_o_partial(:,2);
