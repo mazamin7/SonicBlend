@@ -27,11 +27,11 @@ M = 512;           % lpc order
 w_fun = @bartlett;          % window type
 R = L/2;          % hop size
 
-use_gradient_descent = true;
+use_gradient_descent = false;
 error_tolerance = 1e-2; % only has effect for gradient descent
-error_tolerance_finer = 1e-10;
+error_tolerance_finer = 1e-10; % only has effect for gradient descent
 max_num_iter = 1e2; % only has effect for gradient descent
-max_num_iter_finer = 1e6;
+max_num_iter_finer = 1e6; % only has effect for gradient descent
 
 NFFT = 2*L;
 
@@ -64,8 +64,10 @@ shift_finer = mean(signal_fft_db(1:LIMIT)) - mean(shaping_filter_db_finer(1:LIMI
 
 figure(1)
 plot(freq_spec, shaping_filter_db + shift, 'DisplayName', 'LPC');
-hold on
-plot(freq_spec, shaping_filter_db_finer + shift_finer, 'DisplayName', 'LPC with a finer tolerance');
+if use_gradient_descent
+    hold on
+    plot(freq_spec, shaping_filter_db_finer + shift_finer, 'DisplayName', 'LPC with a finer tolerance');
+end
 
 grid on;
 legend('Location', 'northwest');
