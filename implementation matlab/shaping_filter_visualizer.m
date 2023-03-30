@@ -5,8 +5,8 @@ addpath library
 % ============== Imports and Load Audio =============== %
 
 % Load audio files
-% [signal, fs] = audioread('speech.wav');
-[signal, fs] = audioread('piano.wav');
+[signal, fs] = audioread('speech.wav');
+%[signal, fs] = audioread('piano.wav');
 
 if(~iscolumn(signal))
     signal = signal';
@@ -27,9 +27,11 @@ M = 512;           % lpc order
 w_fun = @bartlett;          % window type
 R = L/2;          % hop size
 
-use_gradient_descent = false;
+use_gradient_descent = true;
 error_tolerance = 1e-2; % only has effect for gradient descent
-max_num_iter = 1e3; % only has effect for gradient descent
+error_tolerance_finer = 1e-10;
+max_num_iter = 1e2; % only has effect for gradient descent
+max_num_iter_finer = 1e6;
 
 NFFT = 2*L;
 
@@ -50,13 +52,20 @@ hold on;
 windowed_signal = get_signal_frames(signal, L, R, w_fun, false);
 windowed_signal = windowed_signal(:,frame);
 [signal_shaping_filters, count] = get_shaping_filters(windowed_signal, M, NFFT, use_gradient_descent, error_tolerance, max_num_iter, false);
+[signal_shaping_filters_finer, count_finer] = get_shaping_filters(windowed_signal, M, NFFT, use_gradient_descent, error_tolerance_finer, max_num_iter_finer, false);
 shaping_filter_db = db(abs(signal_shaping_filters(1:NFFT/2)));
+shaping_filter_db_finer = db(abs(signal_shaping_filters_finer(1:NFFT/2)));
 
 % shifting just for convenience (we're not interested in absolute
 % values but in the envelope)
-shift = mean(signal_fft_db) - mean(shaping_filter_db);
+LIMIT = 200;
+shift = mean(signal_fft_db(1:LIMIT)) - mean(shaping_filter_db(1:LIMIT));
+shift_finer = mean(signal_fft_db(1:LIMIT)) - mean(shaping_filter_db_finer(1:LIMIT));
 
+figure(1)
 plot(freq_spec, shaping_filter_db + shift, 'DisplayName', 'LPC');
+hold on
+plot(freq_spec, shaping_filter_db_finer + shift_finer, 'DisplayName', 'LPC with a finer tolerance');
 
 grid on;
 legend('Location', 'northwest');
