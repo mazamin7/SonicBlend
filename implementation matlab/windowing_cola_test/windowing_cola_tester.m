@@ -1,5 +1,12 @@
 clear all, close all, clc;
 
+% ==================== Description of the script ==========================
+
+% In this script the correct implementation of the OLA is verified
+% comparing the original signal with the reconstructed one:
+%    - deviation between the two signals < 1% than the test is PASSED
+%    - deviation between the two signals > 1% than the test is FAILED
+
 addpath ../library
 addpath ../
 
