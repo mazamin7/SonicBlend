@@ -2,7 +2,7 @@ clear all; close all; clc;
 
 addpath library
 
-%============== Imports and Load Audio ===============%
+% ============== Imports and Load Audio ===============
 
 % Load audio files
 [speech, fs_speech] = audioread('speech.wav');
