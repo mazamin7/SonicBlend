@@ -1,5 +1,11 @@
 clear all; close all; clc;
 
+% ==================== Description of the script ==========================
+
+% In this script the cross-synthesis between a piano signal and a speech
+% signal is performed. 
+% The result is then saved in the folder as "talkign_instrument.wav"
+
 addpath library
 
 % ============== Imports and Load Audio ===============
