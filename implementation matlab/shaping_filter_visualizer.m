@@ -9,7 +9,7 @@ addpath library
 
 % ============== Imports and Load Audio ===============
 
-% Load audio files
+% Load audio file
 [signal, fs] = audioread('speech.wav');
 %[signal, fs] = audioread('piano.wav');
 
@@ -22,7 +22,7 @@ if size(signal,2) > 1
     signal = signal(:,1);
 end
 
-% Normalize signals
+% Normalize signal
 signal = signal./max(abs(signal));
 
 % Set parameters
