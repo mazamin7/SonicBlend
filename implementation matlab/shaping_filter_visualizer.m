@@ -1,5 +1,10 @@
 clear all; close all; clc;
 
+% ==================== Description of the script ==========================
+
+% The shaping_filter_visualizer script which reads an audio file and plots
+% the FFT and the shaping filter of a frame, in order to compare them
+
 addpath library
 
 % ============== Imports and Load Audio ===============
