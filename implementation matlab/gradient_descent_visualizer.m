@@ -2,9 +2,8 @@ clear all, close all, clc;
 
 % ==================== Description of the script ==========================
 
-% The gradient_descent_visualizer script has been implemented to show an 
-% example of both the convergence path and the error J − Jmin (where J is 
-% the cost function obtained and Jmin is its minimum) as a function of the 
+% The gradient_descent_visualizer script has been implemented to show the
+% convergence path for a test case and J − Jmin as a function of the 
 % number of iterations
 
 addpath library
