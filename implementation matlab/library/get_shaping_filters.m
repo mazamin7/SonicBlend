@@ -1,4 +1,6 @@
 function [shaping_filters, count] = get_shaping_filters(framed_signal, M, NFFT, gd, error_tolerance, max_num_iter, reuse)
+    % Returns a matrix of shaping filters, where column m is the shaping filter for m'th signal frame
+    %
     % shaping_filters: matrix where each column is a shaping filter
     % M: order of linear predictor
     % NFFT: fft size
@@ -7,8 +9,6 @@ function [shaping_filters, count] = get_shaping_filters(framed_signal, M, NFFT, 
     % max_num_iter: (gd only) max number of iterations for gradient descent
     % reuse: (gd only) whether the algorithm should use the w_o of the last
     %        frame as initial guess to the w_o of the current frame
-    %
-    % Returns a matrix of shaping filters, where column m is the shaping filter for m'th signal frame
     
     num_frames = size(framed_signal, 2);
     shaping_filters = zeros(NFFT, num_frames);

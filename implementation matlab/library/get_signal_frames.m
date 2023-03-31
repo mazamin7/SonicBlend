@@ -1,4 +1,6 @@
 function xms = get_signal_frames(signal, L, R, w_fun, keep_extremes)
+% Returns a matrix of the signal containing the frames
+%
 % signal: input signal
 % L: window length
 % R: window shift

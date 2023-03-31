@@ -1,5 +1,11 @@
 function plt_spec = plot_stft(x_stft, fs, L, R, title_str, colorbar_do)
 % Plots STFT
+%
+% fs: sample rate
+% L: window length
+% R: window shift
+% title_str: title string describing the spectrogram
+% colorbar_do: whether the plot should show the color bar
 
 num_frames = size(x_stft, 2);
 % Plot magnitude spectrum in db

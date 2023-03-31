@@ -1,5 +1,6 @@
 function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_piano, M_piano, L_speech, R_speech, M_speech, w_fun, plot_do, gd, error_tolerance, max_num_iter, reuse)
 % Cross-synthesis of two audio signals
+%
 % fs: sample rate
 % piano: piano signal in time
 % speech: speech signal in time
@@ -16,8 +17,6 @@ function [cross_synth_audio] = cross_synthesis(fs, piano, speech, L_piano, R_pia
 % max_num_iter: max number of iterations for gradient descent
 % reuse: (gd only) whether the algorithm should use the w_o of the last
 %        frame as initial guess to the w_o of the current frame
-%
-% returns the cross-synthesized audio signal
 
 % ========== Verifying arguments ==========
 

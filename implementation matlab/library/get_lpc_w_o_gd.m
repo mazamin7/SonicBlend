@@ -1,9 +1,13 @@
 function [w_o, num_iter] = get_lpc_w_o_gd(x, M, error_tolerance, max_num_iter, rand_init, initial_guess)
-% returns optimal coefficients w_o_0, w_o_1, ..., w_o_M for a signal x
+% Returns optimal coefficients w_o_0, w_o_1, ..., w_o_M for a signal x
+% using the gradient descent method
+%
 % x: input signal
 % M: order of LP coefficients
 % error_tolerance: determine the accuracy by setting a threshold
 % max_num_iter: max number of iterations for gradient descent
+% rand_init: whether the initial guess hould be random
+% initial_guess: if not random, use this as initial guess
 
 % calculate autocorrelation
 p = xcorr(x, M);

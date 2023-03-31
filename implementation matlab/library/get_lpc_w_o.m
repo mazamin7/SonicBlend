@@ -1,6 +1,7 @@
 function [w_o] = get_lpc_w_o(x, M)
-    % returns optimal coefficients w_o_0, w_o_1, ..., w_o_M for a signal x
+    % Returns optimal coefficients w_o_0, w_o_1, ..., w_o_M for a signal x
 	% using the Wiener-Hopf equation
+    %
     % x: input signal
     % M: order of LP coefficients
     
